@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const routes = require('./src/Controllers/routes');
-const animes = require('./src/Controllers/animes');
-const ceps = require('./src/Controllers/ceps');
-const movies = require('./src/Controllers/movies');
-const series = require('./src/Controllers/series');
-const users = require('./src/Controllers/users');
-const videoNews = require('./src/Controllers/video_news');
+const routes = require('./src/controllers/routes');
+const animes = require('./src/controllers/animes');
+const ceps = require('./src/controllers/ceps');
+const movies = require('./src/controllers/movies');
+const series = require('./src/controllers/series');
+const users = require('./src/controllers/users');
+const videoNews = require('./src/controllers/video_news');
 
 /**
  * @description Express
