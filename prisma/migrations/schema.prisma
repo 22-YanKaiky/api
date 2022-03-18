@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Users {
-  guid         String   @id @unique() @default(uuid()) @db.Uuid
+  guid         String   @id @default(uuid()) @unique() @db.Uuid
   name         String
   last_name    String?
   email        String   @unique
   phone        String?  @unique
   password     String?  @db.Text
+  profile      Int      @db.Integer
   genre        String?
   image_url    String?
   country      String?

@@ -6,6 +6,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "phone" TEXT,
     "password" TEXT,
+    "profile" INTEGER NOT NULL,
     "genre" TEXT,
     "image_url" TEXT,
     "country" TEXT,
