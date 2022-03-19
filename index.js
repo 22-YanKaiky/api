@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const routes = require('./prisma/src/controllers/routes');
-const animes = require('./prisma/src/controllers/animesController');
-const ceps = require('./prisma/src/controllers/cepsController');
-const movies = require('./prisma/src/controllers/moviesController');
-const series = require('./prisma/src/controllers/seriesController');
-const users = require('./prisma/src/controllers/usersController');
-const videoNews = require('./prisma/src/controllers/videoNewsController');
+const routes = require('./src/controllers/routes');
+const animes = require('./src/controllers/animesController');
+const ceps = require('./src/controllers/cepsController');
+const movies = require('./src/controllers/moviesController');
+const series = require('./src/controllers/seriesController');
+const users = require('./src/controllers/usersController');
+const videoNews = require('./src/controllers/videoNewsController');
 
 /**
  * @description Express
