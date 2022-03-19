@@ -43,7 +43,7 @@ model Users {
 model Animes {
   guid      String   @id @unique() @default(uuid()) @db.Uuid
   name      String   @unique
-  link      String
+  link      String?
   genre     String
   seasons   Int
   episodes  Int
@@ -60,7 +60,7 @@ model Animes {
 model Movies {
   guid      String   @id @unique() @default(uuid()) @db.Uuid
   name      String   @unique
-  link      String
+  link      String?
   genre     String
   time      String
   year      Int
@@ -77,7 +77,7 @@ model Movies {
 model Series {
   guid      String   @id @unique() @default(uuid()) @db.Uuid
   name      String   @unique
-  link      String
+  link      String?
   genre     String
   seasons   Int
   episodes  Int

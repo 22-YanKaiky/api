@@ -1,23 +1,23 @@
 -- CreateTable
-CREATE TABLE "animes" (
+CREATE TABLE "movies" (
     "guid" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "link" TEXT NOT NULL,
+    "link" TEXT,
     "genre" TEXT NOT NULL,
-    "seasons" INTEGER NOT NULL,
-    "episodes" INTEGER NOT NULL,
+    "time" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
+    "direction" TEXT NOT NULL,
     "synopsis" TEXT NOT NULL,
     "folder" TEXT NOT NULL,
     "trailer" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "animes_pkey" PRIMARY KEY ("guid")
+    CONSTRAINT "movies_pkey" PRIMARY KEY ("guid")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "animes_guid_key" ON "animes"("guid");
+CREATE UNIQUE INDEX "movies_guid_key" ON "movies"("guid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "animes_name_key" ON "animes"("name");
+CREATE UNIQUE INDEX "movies_name_key" ON "movies"("name");

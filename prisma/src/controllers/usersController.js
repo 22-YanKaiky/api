@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const express = require("express");
 const router = express.Router();
 
@@ -5,7 +6,6 @@ const router = express.Router();
  * @description Prisma
  */
 const { PrismaClient } = require("@prisma/client");
-const { default: axios } = require("axios");
 const prisma = new PrismaClient();
 
 router.get("", async (_, response) => {

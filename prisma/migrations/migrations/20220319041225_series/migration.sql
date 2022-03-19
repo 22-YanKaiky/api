@@ -2,7 +2,7 @@
 CREATE TABLE "series" (
     "guid" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "link" TEXT NOT NULL,
+    "link" TEXT,
     "genre" TEXT NOT NULL,
     "seasons" INTEGER NOT NULL,
     "episodes" INTEGER NOT NULL,
