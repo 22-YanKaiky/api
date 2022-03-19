@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Profile {
+  admin
+  common
+}
+
+enum Genre {
+  male
+  female
+}
+
 model Users {
   guid         String   @id @unique() @default(uuid()) @db.Uuid
   name         String
@@ -30,12 +40,53 @@ model Users {
   @@map("users")
 }
 
-enum Profile {
-  admin
-  common
+model Animes {
+  guid      String   @id @unique() @default(uuid()) @db.Uuid
+  name      String   @unique
+  link      String
+  genre     String
+  seasons   Int
+  episodes  Int
+  year      Int
+  synopsis  String
+  folder    String
+  trailer   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("animes")
 }
 
-enum Genre {
-  male
-  female
+model Movies {
+  guid      String   @id @unique() @default(uuid()) @db.Uuid
+  name      String   @unique
+  link      String
+  genre     String
+  time      String
+  year      Int
+  direction String
+  synopsis  String
+  folder    String
+  trailer   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("movies")
+}
+
+model Series {
+  guid      String   @id @unique() @default(uuid()) @db.Uuid
+  name      String   @unique
+  link      String
+  genre     String
+  seasons   Int
+  episodes  Int
+  year      Int
+  synopsis  String
+  folder    String
+  trailer   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("series")
 }
