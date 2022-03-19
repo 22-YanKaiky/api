@@ -8,13 +8,13 @@ datasource db {
 }
 
 model Users {
-  guid         String   @id @default(uuid()) @unique() @db.Uuid
+  guid         String   @id @unique() @default(uuid()) @db.Uuid
   name         String
   last_name    String?
   email        String   @unique
   phone        String?  @unique
   password     String?  @db.Text
-  profile      Int      @db.Integer
+  profile      Profile  @default(common)
   genre        String?
   image_url    String?
   country      String?
@@ -28,4 +28,14 @@ model Users {
   updatedAt    DateTime @default(now())
 
   @@map("users")
+}
+
+enum Profile {
+  admin
+  common
+}
+
+enum Genre {
+  male
+  female
 }

@@ -1,3 +1,9 @@
+-- CreateEnum
+CREATE TYPE "Profile" AS ENUM ('admin', 'common');
+
+-- CreateEnum
+CREATE TYPE "Genre" AS ENUM ('male', 'female');
+
 -- CreateTable
 CREATE TABLE "users" (
     "guid" UUID NOT NULL,
@@ -6,7 +12,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "phone" TEXT,
     "password" TEXT,
-    "profile" INTEGER NOT NULL,
+    "profile" "Profile" NOT NULL DEFAULT E'common',
     "genre" TEXT,
     "image_url" TEXT,
     "country" TEXT,
