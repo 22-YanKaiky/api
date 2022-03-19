@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-/**
- * @default Route
- */
-router.get('/', (_, res) => res.send('Home Page Sucess'))
+router.get("", (_, response) => response.status(200).json({
+  message: "© 2022 Cinemovie"
+}));
 
 module.exports = router;

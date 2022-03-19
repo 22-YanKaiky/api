@@ -1,34 +1,27 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const routes = require('./src/controllers/routes');
-const animes = require('./src/controllers/animesController');
-const ceps = require('./src/controllers/cepsController');
-const movies = require('./src/controllers/moviesController');
-const series = require('./src/controllers/seriesController');
-const users = require('./src/controllers/usersController');
-const videoNews = require('./src/controllers/videoNewsController');
 
-/**
- * @description Express
- */
-app.use(express.json())
+const route = require("./src/routes");
+const animes = require("./src/routes/animes");
+const ceps = require("./src/routes/ceps");
+const movies = require("./src/routes/movies");
+const series = require("./src/routes/series");
+const users = require("./src/routes/users");
+const news = require("./src/routes/news");
+const port = process.env.PORT;
 
-/**
- * @description Body Parsers
- */
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json());
 
-/**
- * @description Routes
- */
-app.use('/', routes)
-app.use('/animes', animes)
-app.use('/ceps', ceps)
-app.use('/movies', movies)
-app.use('/series', series)
-app.use('/users', users)
-app.use('/video_news', videoNews)
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.listen(3000, () => console.log("Server Running"));
+app.use("/", route);
+app.use("/animes", animes);
+app.use("/ceps", ceps);
+app.use("/movies", movies);
+app.use("/series", series);
+app.use("/users", users);
+app.use("/news", news);
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
