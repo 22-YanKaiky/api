@@ -1,7 +1,7 @@
-const AuthService = require("../services/auth.service");
 const createError = require("http-errors");
+const AuthService = require("../services/auth.service");
 
-class authController {
+class AuthController {
   static login = async (request, response, next) => {
     try {
       const payload = {
@@ -12,7 +12,8 @@ class authController {
       const access = await AuthService.login(payload);
 
       response.status(200).json({
-        status: true,
+        status: 200,
+        statusText: "OK",
         message: "Account login successful",
         data: access,
       });
@@ -22,4 +23,4 @@ class authController {
   };
 }
 
-module.exports = authController;
+module.exports = AuthController;

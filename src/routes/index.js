@@ -11,7 +11,7 @@ const users = require("./users");
 const comingSoon = require("./coming.soon");
 
 router.get("/", (_, response) =>
-  response.status(200).json({ message: "© 2022 Cinemovie" })
+  response.status(200).json({ message: "© 2022, Cinemovie" })
 );
 
 router.use("/auth", auth);

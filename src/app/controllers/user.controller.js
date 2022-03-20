@@ -19,7 +19,12 @@ class UserController {
 
       const user = await UserService.createUser(payload);
 
-      response.status(201).json(user);
+      response.status(201).json({
+        status: 201,
+        statusText: "Created",
+        message: "Create user successful",
+        data: user
+      });
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -31,7 +36,12 @@ class UserController {
     try {
       const users = await UserService.getAllUsers();
 
-      response.status(200).json(users);
+      response.status(200).json({
+        status: 200,
+        statusText: "OK",
+        message: "Successful",
+        data: users
+      });
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -45,7 +55,12 @@ class UserController {
 
       const user = await UserService.getUserByGuid(guid);
 
-      response.status(200).json(user);
+      response.status(200).json({
+        status: 200,
+        statusText: "OK",
+        message: "Successful",
+        data: user
+      });
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -71,9 +86,14 @@ class UserController {
         house_number: request.body.house_number,
       };
 
-      const updateUser = await UserService.updateUser(payload, guid);
+      const user = await UserService.updateUser(payload, guid);
 
-      response.status(200).json(updateUser);
+      response.status(200).json({
+        status: 200,
+        statusText: "OK",
+        message: "Successful",
+        data: user
+      });
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -87,7 +107,11 @@ class UserController {
 
       await UserService.deleteUser(guid);
 
-      response.status(200).json({ message: "Successfully deleted" });
+      response.status(200).json({
+        status: 200,
+        statusText: "OK",
+        message: "Successful deleted",
+      });
     } catch (error) {
       response.status(400).json({
         message: error,
