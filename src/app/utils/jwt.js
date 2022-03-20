@@ -1,12 +1,11 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const createError = require("http-errors");
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+const createError = require("http-errors");
+const jwt = require("jsonwebtoken");
+
+require("dotenv").config();
 
 module.exports = {
   signAccessToken(payload) {
-    console.log('signAccessToken')
-    
     return new Promise((resolve, reject) => {
       jwt.sign({ payload }, accessTokenSecret, {}, (error, token) => {
         if (error) reject(createError.InternalServerError());
@@ -19,7 +18,7 @@ module.exports = {
   verifyAccessToken(token) {
     return new Promise((resolve, reject) => {
       jwt.verify(token, accessTokenSecret, (error, payload) => {
-        if (err) {
+        if (error) {
           const message =
             error.name == "JsonWebTokenError" ? "Unauthorized" : error.message;
 

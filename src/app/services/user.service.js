@@ -2,17 +2,23 @@ const { PrismaClient } = require("@prisma/client");
 const { default: axios } = require("axios");
 const prisma = new PrismaClient();
 
+require("dotenv").config();
+const bcrypt = require("bcryptjs");
+const jwt = require("../utils/jwt");
+
 class UserService {
   static createUser = async (payload) => {
+    payload.password = bcrypt.hashSync(payload.password, 8);
+
     let cep;
-    let user;
+    let validateUser;
 
     if (payload.cep) {
       cep = await axios.get(
         `https://brasilapi.com.br/api/cep/v1/${payload.cep}`
       );
 
-      user = {
+      validateUser = {
         ...payload,
         state: cep.data.state,
         city: cep.data.city,
@@ -21,11 +27,13 @@ class UserService {
       };
     }
 
-    if (!payload.cep) user = payload;
+    if (!payload.cep) validateUser = payload;
 
-    const newUser = await prisma.users.create({ data: user });
+    const user = await prisma.users.create({ data: validateUser });
 
-    return newUser;
+    payload.accessToken = await jwt.signAccessToken(user);
+
+    return payload;
   };
 
   static getAllUsers = async () => {
