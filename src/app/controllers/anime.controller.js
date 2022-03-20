@@ -1,7 +1,7 @@
-const SerieService = require("../services/serie.service");
+const AnimeService = require("../services/anime.service");
 
-class SerieController {
-  static createSerie = async (request, response) => {
+class AnimeController {
+  static createAnime = async (request, response) => {
     try {
       const payload = {
         name: request.body.name,
@@ -15,13 +15,13 @@ class SerieController {
         trailer: request.body.trailer,
       };
 
-      const serie = await SerieService.createSerie(payload);
+      const anime = await AnimeService.createAnime(payload);
 
       response.status(201).json({
         status: 201,
         statusText: "Created",
-        message: "Create serie successful",
-        data: serie,
+        message: "Create anime successful",
+        data: anime,
       });
     } catch (error) {
       response.status(400).json({
@@ -30,15 +30,15 @@ class SerieController {
     }
   };
 
-  static getAllSeries = async (_, response) => {
+  static getAllAnimes = async (_, response) => {
     try {
-      const series = await SerieService.getAllSeries();
+      const animes = await AnimeService.getAllAnimes();
 
       response.status(200).json({
         status: 200,
         statusText: "OK",
         message: "Successful",
-        data: series,
+        data: animes,
       });
     } catch (error) {
       response.status(400).json({
@@ -47,17 +47,17 @@ class SerieController {
     }
   };
 
-  static getSerieByGuid = async (request, response) => {
+  static getAnimeByGuid = async (request, response) => {
     try {
       const guid = request.params.guid;
 
-      const serie = await SerieService.getSerieByGuid(guid);
+      const anime = await AnimeService.getAnimeByGuid(guid);
 
       response.status(200).json({
         status: 200,
         statusText: "OK",
         message: "Successful",
-        data: serie,
+        data: anime,
       });
     } catch (error) {
       response.status(400).json({
@@ -66,7 +66,7 @@ class SerieController {
     }
   };
 
-  static updateSerie = async (request, response) => {
+  static updateAnime = async (request, response) => {
     try {
       const guid = request.params.guid;
 
@@ -82,13 +82,13 @@ class SerieController {
         trailer: request.body.trailer,
       };
 
-      const serie = await SerieService.updateSerie(payload, guid);
+      const anime = await AnimeService.updateAnime(payload, guid);
 
       response.status(200).json({
         status: 200,
         statusText: "OK",
-        message: "Update serie successful",
-        data: serie,
+        message: "Update anime successful",
+        data: anime,
       });
     } catch (error) {
       response.status(400).json({
@@ -97,11 +97,11 @@ class SerieController {
     }
   };
 
-  static deleteSerie = async (request, response) => {
+  static deleteAnime = async (request, response) => {
     try {
       const guid = request.params.guid;
 
-      await SerieService.deleteSerie(guid);
+      await AnimeService.deleteAnime(guid);
 
       response.status(200).json({
         status: 200,
@@ -116,4 +116,4 @@ class SerieController {
   };
 }
 
-module.exports = SerieController;
+module.exports = AnimeController;

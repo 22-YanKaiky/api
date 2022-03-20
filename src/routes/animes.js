@@ -1,7 +1,17 @@
 const express = require("express");
+const auth = require("../app/middlewares/auth.middlewares");
+const AnimeController = require("../app/controllers/anime.controller");
 
 const router = express.Router();
 
-router.get("/", (_, res) => res.send({ message: "Animes" }));
+router.post("/", auth, AnimeController.createAnime);
+
+router.get("/", auth, AnimeController.getAllAnimes);
+
+router.get("/:guid", auth, AnimeController.getAnimeByGuid);
+
+router.put("/:guid", auth, AnimeController.updateAnime);
+
+router.delete("/:guid", auth, AnimeController.deleteAnime);
 
 module.exports = router;

@@ -1,13 +1,15 @@
+require("dotenv").config();
+
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
-
-require("dotenv").config();
 
 module.exports = {
   signAccessToken(payload) {
     return new Promise((resolve, reject) => {
       jwt.sign({ payload }, accessTokenSecret, {}, (error, token) => {
+        console.log(error);
+
         if (error) reject(createError.InternalServerError());
 
         resolve(token);
