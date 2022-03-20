@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
 
 class UserService {
+  static removePassword = async (object) => delete object.password;
+
   static createUser = async (payload) => {
     payload.password = bcrypt.hashSync(payload.password, 8);
 
@@ -31,6 +33,8 @@ class UserService {
 
     const user = await prisma.users.create({ data: validateUser });
 
+    this.removePassword(payload);
+
     payload.accessToken = await jwt.signAccessToken(user);
 
     return payload;
@@ -38,6 +42,8 @@ class UserService {
 
   static getAllUsers = async () => {
     const users = await prisma.users.findMany();
+
+    for (const user of users) this.removePassword(user);
 
     return users;
   };
@@ -48,6 +54,8 @@ class UserService {
         guid: guid,
       },
     });
+
+    this.removePassword(user);
 
     return user;
   };
@@ -78,6 +86,8 @@ class UserService {
       },
       data: user,
     });
+
+    this.removePassword(updateUser);
 
     return updateUser;
   };
