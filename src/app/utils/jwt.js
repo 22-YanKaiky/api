@@ -8,8 +8,6 @@ module.exports = {
   signAccessToken(payload) {
     return new Promise((resolve, reject) => {
       jwt.sign({ payload }, accessTokenSecret, {}, (error, token) => {
-        console.log(error);
-
         if (error) reject(createError.InternalServerError());
 
         resolve(token);
