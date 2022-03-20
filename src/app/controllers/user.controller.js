@@ -91,7 +91,7 @@ class UserController {
       response.status(200).json({
         status: 200,
         statusText: "OK",
-        message: "Successful",
+        message: "Update user successful",
         data: user
       });
     } catch (error) {

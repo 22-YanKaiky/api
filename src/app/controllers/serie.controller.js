@@ -1,27 +1,27 @@
-const MovieService = require("../services/movie.service");
+const SerieService = require("../services/serie.service");
 
-class MovieController {
-  static createMovie = async (request, response) => {
+class SerieController {
+  static createSerie = async (request, response) => {
     try {
       const payload = {
         name: request.body.name,
         link: request.body.link,
         genre: request.body.genre,
-        time: request.body.time,
+        seasons: request.body.seasons,
+        episodes: request.body.episodes,
         year: request.body.year,
-        direction: request.body.direction,
         synopsis: request.body.synopsis,
         folder: request.body.folder,
         trailer: request.body.trailer,
       };
 
-      const movie = await MovieService.createMovie(payload);
+      const serie = await SerieService.createSerie(payload);
 
       response.status(201).json({
         status: 201,
         statusText: "Created",
-        message: "Create movie successful",
-        data: movie,
+        message: "Create serie successful",
+        data: serie,
       });
     } catch (error) {
       response.status(400).json({
@@ -30,9 +30,9 @@ class MovieController {
     }
   };
 
-  static getAllMovies = async (_, response) => {
+  static getAllSeries = async (_, response) => {
     try {
-      const movies = await MovieService.getAllMovies();
+      const movies = await SerieService.getAllSeries();
 
       response.status(200).json({
         status: 200,
@@ -47,17 +47,17 @@ class MovieController {
     }
   };
 
-  static getMovieByGuid = async (request, response) => {
+  static getSerieByGuid = async (request, response) => {
     try {
       const guid = request.params.guid;
 
-      const movie = await MovieService.getMovieByGuid(guid);
+      const serie = await SerieService.getSerieByGuid(guid);
 
       response.status(200).json({
         status: 200,
         statusText: "OK",
         message: "Successful",
-        data: movie,
+        data: serie,
       });
     } catch (error) {
       response.status(400).json({
@@ -66,7 +66,7 @@ class MovieController {
     }
   };
 
-  static updateMovie = async (request, response) => {
+  static updateSerie = async (request, response) => {
     try {
       const guid = request.params.guid;
 
@@ -74,21 +74,21 @@ class MovieController {
         name: request.body.name,
         link: request.body.link,
         genre: request.body.genre,
-        time: request.body.time,
+        seasons: request.body.seasons,
+        episodes: request.body.episodes,
         year: request.body.year,
-        direction: request.body.direction,
         synopsis: request.body.synopsis,
         folder: request.body.folder,
         trailer: request.body.trailer,
       };
 
-      const movie = await MovieService.updateMovie(payload, guid);
+      const serie = await SerieService.updateSerie(payload, guid);
 
       response.status(200).json({
         status: 200,
         statusText: "OK",
-        message: "Update movie successful",
-        data: movie,
+        message: "Update serie successful",
+        data: serie,
       });
     } catch (error) {
       response.status(400).json({
@@ -97,11 +97,11 @@ class MovieController {
     }
   };
 
-  static deleteMovie = async (request, response) => {
+  static deleteSerie = async (request, response) => {
     try {
       const guid = request.params.guid;
 
-      await MovieService.deleteMovie(guid);
+      await SerieService.deleteSerie(guid);
 
       response.status(200).json({
         status: 200,
@@ -116,4 +116,4 @@ class MovieController {
   };
 }
 
-module.exports = MovieController;
+module.exports = SerieController;
