@@ -1,11 +1,9 @@
-const { PrismaClient } = require("@prisma/client");
-const UserService = require("../services/UserService");
-const prisma = new PrismaClient();
+const UserService = require("../services/user.service");
 
 class UserController {
   static createUser = async (request, response) => {
     try {
-      const payload = ({
+      const payload = {
         name: request.body.name,
         last_name: request.body.last_name,
         email: request.body.email,
@@ -17,7 +15,7 @@ class UserController {
         country: request.body.country,
         cep: request.body.cep,
         house_number: request.body.house_number,
-      } = request.body);
+      };
 
       const user = await UserService.createUser(payload);
 

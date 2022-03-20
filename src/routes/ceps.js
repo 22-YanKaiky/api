@@ -3,7 +3,7 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get('', async (request, response) => {
+router.get('/', async (request, response) => {
   try {
     const cep = request.body.cep;
     

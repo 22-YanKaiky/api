@@ -90,3 +90,17 @@ model Series {
 
   @@map("series")
 }
+
+model ComingSoon {
+  guid      String   @id @unique() @default(uuid()) @db.Uuid
+  name      String   @unique
+  genre     String
+  date      DateTime
+  synopsis  String
+  folder    String
+  trailer   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("coming_soon")
+}
