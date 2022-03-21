@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { default: axios } = require("axios");
+const createError = require("http-errors");
 const prisma = new PrismaClient();
 
 require("dotenv").config();
@@ -7,16 +8,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
 
 class UserService {
-  static removePassword = async (object) => delete object.password;
-
   static createUser = async (payload) => {
     payload.password = bcrypt.hashSync(payload.password, 8);
 
-    let cep;
     let validateUser;
 
     if (payload.cep) {
-      cep = await axios.get(
+      const cep = await axios.get(
         `https://brasilapi.com.br/api/cep/v1/${payload.cep}`
       );
 
@@ -55,17 +53,18 @@ class UserService {
       },
     });
 
+    if (!user) return createError.NotFound("Anime not found");
+
     this.removePassword(user);
 
     return user;
   };
 
   static updateUser = async (payload, guid) => {
-    let cep;
     let user;
 
     if (payload.cep) {
-      cep = await axios.get(
+      const cep = await axios.get(
         `https://brasilapi.com.br/api/cep/v1/${payload.cep}`
       );
 
@@ -99,6 +98,8 @@ class UserService {
       },
     });
   };
+
+  static removePassword = async (object) => delete object.password;
 }
 
 module.exports = UserService;

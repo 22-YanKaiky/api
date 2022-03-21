@@ -17,12 +17,7 @@ class AnimeController {
 
       const anime = await AnimeService.createAnime(payload);
 
-      response.status(201).json({
-        status: 201,
-        statusText: "Created",
-        message: "Create anime successful",
-        data: anime,
-      });
+      response.status(201).json(anime);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -34,12 +29,7 @@ class AnimeController {
     try {
       const animes = await AnimeService.getAllAnimes();
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful",
-        data: animes,
-      });
+      response.status(200).json(animes);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -53,12 +43,7 @@ class AnimeController {
 
       const anime = await AnimeService.getAnimeByGuid(guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful",
-        data: anime,
-      });
+      response.status(200).json(anime);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -84,12 +69,7 @@ class AnimeController {
 
       const anime = await AnimeService.updateAnime(payload, guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Update anime successful",
-        data: anime,
-      });
+      response.status(200).json(anime);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -103,11 +83,7 @@ class AnimeController {
 
       await AnimeService.deleteAnime(guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful deleted",
-      });
+      response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
       response.status(400).json({
         message: error,

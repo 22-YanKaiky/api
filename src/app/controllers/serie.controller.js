@@ -17,12 +17,7 @@ class SerieController {
 
       const serie = await SerieService.createSerie(payload);
 
-      response.status(201).json({
-        status: 201,
-        statusText: "Created",
-        message: "Create serie successful",
-        data: serie,
-      });
+      response.status(201).json(serie);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -34,12 +29,7 @@ class SerieController {
     try {
       const series = await SerieService.getAllSeries();
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful",
-        data: series,
-      });
+      response.status(200).json(series);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -53,12 +43,7 @@ class SerieController {
 
       const serie = await SerieService.getSerieByGuid(guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful",
-        data: serie,
-      });
+      response.status(200).json(serie);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -84,12 +69,7 @@ class SerieController {
 
       const serie = await SerieService.updateSerie(payload, guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Update serie successful",
-        data: serie,
-      });
+      response.status(200).json(serie);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -103,11 +83,7 @@ class SerieController {
 
       await SerieService.deleteSerie(guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful deleted",
-      });
+      response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
       response.status(400).json({
         message: error,

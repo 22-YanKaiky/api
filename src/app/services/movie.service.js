@@ -1,14 +1,15 @@
 const { PrismaClient } = require("@prisma/client");
+const createError = require("http-errors");
 const prisma = new PrismaClient();
 
 class MovieService {
   static createMovie = async (payload) => {
-    let trailer;
+    const split = payload.trailer.split("https://youtu.be/");
 
-    payload.trailer &&
-      (trailer = `https://www.youtube.com/embed/${
-        payload.trailer.split("/")[3]
-      }`);
+    if (split[0])
+      return createError.UnprocessableEntity("Invalid trailer link");
+
+    const trailer = `https://www.youtube.com/embed/${split[1]}`;
 
     const movie = {
       ...payload,
@@ -33,16 +34,22 @@ class MovieService {
       },
     });
 
+    if (!movie) return createError.NotFound("Movie not found");
+
     return movie;
   };
 
   static updateMovie = async (payload, guid) => {
     let trailer;
 
-    payload.trailer &&
-      (trailer = `https://www.youtube.com/embed/${
-        payload.trailer.split("/")[3]
-      }`);
+    if (payload.trailer) {
+      const split = payload.trailer.split("https://youtu.be/");
+
+      if (split[0])
+        return createError.UnprocessableEntity("Invalid trailer link");
+
+      trailer = `https://www.youtube.com/embed/${split[1]}`;
+    }
 
     const movie = {
       ...payload,

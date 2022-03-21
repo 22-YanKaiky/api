@@ -17,8 +17,8 @@ class AuthController {
         message: "Account login successful",
         data: access,
       });
-    } catch (e) {
-      next(createError(e.statusCode, e.message));
+    } catch (error) {
+      next(createError(error.statusCode, error.message));
     }
   };
 }

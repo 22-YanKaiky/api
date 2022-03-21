@@ -17,12 +17,7 @@ class MovieController {
 
       const movie = await MovieService.createMovie(payload);
 
-      response.status(201).json({
-        status: 201,
-        statusText: "Created",
-        message: "Create movie successful",
-        data: movie,
-      });
+      response.status(201).json(movie);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -34,12 +29,7 @@ class MovieController {
     try {
       const movies = await MovieService.getAllMovies();
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful",
-        data: movies,
-      });
+      response.status(200).json(movies);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -53,12 +43,7 @@ class MovieController {
 
       const movie = await MovieService.getMovieByGuid(guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful",
-        data: movie,
-      });
+      response.status(200).json(movie);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -84,12 +69,7 @@ class MovieController {
 
       const movie = await MovieService.updateMovie(payload, guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Update movie successful",
-        data: movie,
-      });
+      response.status(200).json(movie);
     } catch (error) {
       response.status(400).json({
         message: error,
@@ -103,11 +83,7 @@ class MovieController {
 
       await MovieService.deleteMovie(guid);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Successful deleted",
-      });
+      response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
       response.status(400).json({
         message: error,
