@@ -1,7 +1,7 @@
 const MovieService = require("../services/movie.service");
 
 class MovieController {
-  static createMovie = async (request, response) => {
+  static createMovie = async (request, response, message) => {
     try {
       const payload = {
         name: request.body.name,
@@ -19,25 +19,21 @@ class MovieController {
 
       response.status(201).json(movie);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getAllMovies = async (_, response) => {
+  static getAllMovies = async (_, response, message) => {
     try {
       const movies = await MovieService.getAllMovies();
 
       response.status(200).json(movies);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getMovieByGuid = async (request, response) => {
+  static getMovieByGuid = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -45,13 +41,11 @@ class MovieController {
 
       response.status(200).json(movie);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static updateMovie = async (request, response) => {
+  static updateMovie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -71,13 +65,11 @@ class MovieController {
 
       response.status(200).json(movie);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static deleteMovie = async (request, response) => {
+  static deleteMovie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -85,9 +77,7 @@ class MovieController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 }

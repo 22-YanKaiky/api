@@ -2,7 +2,7 @@ const createError = require("http-errors");
 const AuthService = require("../services/auth.service");
 
 class AuthController {
-  static login = async (request, response, next) => {
+  static login = async (request, response, message) => {
     try {
       const payload = {
         email: request.body.email,
@@ -18,7 +18,7 @@ class AuthController {
         data: access,
       });
     } catch (error) {
-      next(createError(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 }

@@ -1,7 +1,7 @@
 const SerieService = require("../services/serie.service");
 
 class SerieController {
-  static createSerie = async (request, response) => {
+  static createSerie = async (request, response, message) => {
     try {
       const payload = {
         name: request.body.name,
@@ -19,25 +19,21 @@ class SerieController {
 
       response.status(201).json(serie);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getAllSeries = async (_, response) => {
+  static getAllSeries = async (_, response, message) => {
     try {
       const series = await SerieService.getAllSeries();
 
       response.status(200).json(series);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getSerieByGuid = async (request, response) => {
+  static getSerieByGuid = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -45,13 +41,11 @@ class SerieController {
 
       response.status(200).json(serie);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static updateSerie = async (request, response) => {
+  static updateSerie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -71,13 +65,11 @@ class SerieController {
 
       response.status(200).json(serie);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static deleteSerie = async (request, response) => {
+  static deleteSerie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -85,9 +77,7 @@ class SerieController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 }

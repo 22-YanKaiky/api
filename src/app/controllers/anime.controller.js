@@ -1,7 +1,8 @@
+const createError = require("http-errors");
 const AnimeService = require("../services/anime.service");
 
 class AnimeController {
-  static createAnime = async (request, response) => {
+  static createAnime = async (request, response, message) => {
     try {
       const payload = {
         name: request.body.name,
@@ -19,25 +20,21 @@ class AnimeController {
 
       response.status(201).json(anime);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getAllAnimes = async (_, response) => {
+  static getAllAnimes = async (_, response, message) => {
     try {
       const animes = await AnimeService.getAllAnimes();
 
       response.status(200).json(animes);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getAnimeByGuid = async (request, response) => {
+  static getAnimeByGuid = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -45,13 +42,11 @@ class AnimeController {
 
       response.status(200).json(anime);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static updateAnime = async (request, response) => {
+  static updateAnime = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -71,13 +66,11 @@ class AnimeController {
 
       response.status(200).json(anime);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static deleteAnime = async (request, response) => {
+  static deleteAnime = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -85,9 +78,7 @@ class AnimeController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 }

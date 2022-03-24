@@ -1,7 +1,7 @@
 const UserService = require("../services/user.service");
 
 class UserController {
-  static createUser = async (request, response) => {
+  static createUser = async (request, response, message) => {
     try {
       const payload = {
         name: request.body.name,
@@ -22,25 +22,21 @@ class UserController {
 
       response.status(201).json(user);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getAllUsers = async (_, response) => {
+  static getAllUsers = async (_, response, message) => {
     try {
       const users = await UserService.getAllUsers();
 
       response.status(200).json(users);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getUserByGuid = async (request, response) => {
+  static getUserByGuid = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -48,13 +44,11 @@ class UserController {
 
       response.status(200).json(user);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static updateUser = async (request, response) => {
+  static updateUser = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -77,13 +71,11 @@ class UserController {
 
       response.status(200).json(user);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static deleteUser = async (request, response) => {
+  static deleteUser = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -91,9 +83,7 @@ class UserController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 }

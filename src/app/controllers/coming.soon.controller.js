@@ -1,7 +1,7 @@
 const ComingSoonService = require("../services/coming.soon.service");
 
 class ComingSoonController {
-  static createComingSoon = async (request, response) => {
+  static createComingSoon = async (request, response, message) => {
     try {
       const payload = {
         name: request.body.name,
@@ -16,25 +16,21 @@ class ComingSoonController {
 
       response.status(201).json(comingSoon);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getAllComingSoons = async (_, response) => {
+  static getAllComingSoons = async (_, response, message) => {
     try {
       const comingSoons = await ComingSoonService.getAllComingSoons();
 
       response.status(200).json(comingSoons);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static getComingSoonByGuid = async (request, response) => {
+  static getComingSoonByGuid = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -42,13 +38,11 @@ class ComingSoonController {
 
       response.status(200).json(comingSoon);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static updateComingSoon = async (request, response) => {
+  static updateComingSoon = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -68,13 +62,11 @@ class ComingSoonController {
 
       response.status(200).json(comingSoon);
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 
-  static deleteComingSoon = async (request, response) => {
+  static deleteComingSoon = async (request, response, message) => {
     try {
       const guid = request.params.guid;
 
@@ -82,9 +74,7 @@ class ComingSoonController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      response.status(400).json({
-        message: error,
-      });
+      message(createError.BadRequest(error.statusCode, error.message));
     }
   };
 }

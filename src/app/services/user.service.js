@@ -10,7 +10,7 @@ const jwt = require("../utils/jwt");
 
 const schema = Joi.object({
   name: Joi.string().required().trim(),
-  last_name: Joi.string(),
+  last_name: Joi.string().trim(),
   email: Joi.string().email().lowercase().required().trim(),
   phone: Joi.string(),
   password: Joi.string().min(8),
