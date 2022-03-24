@@ -12,7 +12,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "phone" TEXT,
     "password" TEXT,
-    "profile" "Profile" NOT NULL DEFAULT E'common',
+    "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "genre" TEXT,
     "image_url" TEXT,
     "country" TEXT,

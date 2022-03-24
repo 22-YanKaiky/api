@@ -7,11 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Profile {
-  admin
-  common
-}
-
 enum Genre {
   male
   female
@@ -24,7 +19,7 @@ model Users {
   email        String   @unique
   phone        String?
   password     String?  @db.Text
-  profile      Profile  @default(common)
+  isAdmin      Boolean  @default(false)
   genre        String?
   image_url    String?
   country      String?
@@ -95,7 +90,7 @@ model ComingSoon {
   guid      String   @id @unique() @default(uuid()) @db.Uuid
   name      String   @unique
   genre     String
-  date      DateTime
+  date      DateTime @db.Date
   synopsis  String
   folder    String
   trailer   String
