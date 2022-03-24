@@ -3,7 +3,7 @@ const router = express.Router();
 const createError = require("http-errors");
 
 const animes = require("./animes");
-const ceps = require("./ceps");
+const zipcode = require("./zipcode");
 const auth = require("./auth");
 const movies = require("./movies");
 const series = require("./series");
@@ -16,7 +16,7 @@ router.get("/", (_, response) =>
 
 router.use("/auth", auth);
 router.use("/animes", animes);
-router.use("/ceps", ceps);
+router.use("/zipcode", zipcode);
 router.use("/movies", movies);
 router.use("/series", series);
 router.use("/users", users);
