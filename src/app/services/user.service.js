@@ -8,7 +8,7 @@ const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
 
-const schema = Joi.object({
+const schema = Joi.object().keys({
   name: Joi.string().required().trim(),
   last_name: Joi.string().trim(),
   email: Joi.string().email().lowercase().required().trim(),
@@ -24,6 +24,10 @@ const schema = Joi.object({
 
 class UserService {
   static createUser = async (payload) => {
+    const validate = schema.validate(payload);
+
+    console.log(validate)
+    
     payload.password = bcrypt.hashSync(payload.password, 8);
 
     let validateUser;

@@ -16,7 +16,7 @@ class ComingSoonController {
 
       response.status(201).json(comingSoon);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -26,7 +26,7 @@ class ComingSoonController {
 
       response.status(200).json(comingSoons);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -38,7 +38,7 @@ class ComingSoonController {
 
       response.status(200).json(comingSoon);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -62,7 +62,7 @@ class ComingSoonController {
 
       response.status(200).json(comingSoon);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -74,7 +74,7 @@ class ComingSoonController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 }

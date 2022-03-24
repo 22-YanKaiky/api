@@ -11,7 +11,7 @@ class ZipcodeController {
 
       response.status(200).json(currentZipcode.data);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 }

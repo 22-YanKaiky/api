@@ -20,7 +20,7 @@ class AnimeController {
 
       response.status(201).json(anime);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -30,7 +30,7 @@ class AnimeController {
 
       response.status(200).json(animes);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -42,7 +42,7 @@ class AnimeController {
 
       response.status(200).json(anime);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -66,7 +66,7 @@ class AnimeController {
 
       response.status(200).json(anime);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -78,7 +78,7 @@ class AnimeController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 }

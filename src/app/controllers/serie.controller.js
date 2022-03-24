@@ -19,7 +19,7 @@ class SerieController {
 
       response.status(201).json(serie);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -29,7 +29,7 @@ class SerieController {
 
       response.status(200).json(series);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -41,7 +41,7 @@ class SerieController {
 
       response.status(200).json(serie);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -65,7 +65,7 @@ class SerieController {
 
       response.status(200).json(serie);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -77,7 +77,7 @@ class SerieController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 }

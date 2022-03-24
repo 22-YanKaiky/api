@@ -22,7 +22,7 @@ class UserController {
 
       response.status(201).json(user);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -32,7 +32,7 @@ class UserController {
 
       response.status(200).json(users);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -44,7 +44,7 @@ class UserController {
 
       response.status(200).json(user);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -71,7 +71,7 @@ class UserController {
 
       response.status(200).json(user);
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 
@@ -83,7 +83,7 @@ class UserController {
 
       response.status(200).json({ message: "Successful deleted" });
     } catch (error) {
-      message(createError.BadRequest(error.statusCode, error.message));
+      message(createError(error.statusCode, error.message));
     }
   };
 }
