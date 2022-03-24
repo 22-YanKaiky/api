@@ -1,7 +1,4 @@
 -- CreateEnum
-CREATE TYPE "Profile" AS ENUM ('admin', 'common');
-
--- CreateEnum
 CREATE TYPE "Genre" AS ENUM ('male', 'female');
 
 -- CreateTable
@@ -11,12 +8,13 @@ CREATE TABLE "users" (
     "last_name" TEXT,
     "email" TEXT NOT NULL,
     "phone" TEXT,
+    "birthday" DATE NOT NULL,
     "password" TEXT,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
     "genre" TEXT,
     "image_url" TEXT,
     "country" TEXT,
-    "cep" TEXT,
+    "zipcode" TEXT,
     "house_number" TEXT,
     "state" TEXT,
     "city" TEXT,

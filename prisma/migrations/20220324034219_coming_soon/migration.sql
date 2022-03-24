@@ -1,6 +1,3 @@
--- DropEnum
-DROP TYPE "Profile";
-
 -- CreateTable
 CREATE TABLE "coming_soon" (
     "guid" UUID NOT NULL,

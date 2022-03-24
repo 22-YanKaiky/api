@@ -18,12 +18,13 @@ model Users {
   last_name    String?
   email        String   @unique
   phone        String?
+  birthday     DateTime @db.Date
   password     String?  @db.Text
   isAdmin      Boolean  @default(false)
   genre        String?
   image_url    String?
   country      String?
-  cep          String?
+  zipcode      String?
   house_number String?
   state        String?
   city         String?

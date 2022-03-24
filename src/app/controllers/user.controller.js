@@ -8,12 +8,13 @@ class UserController {
         last_name: request.body.last_name,
         email: request.body.email,
         phone: request.body.phone,
+        birthday: request.body.birthday,
         password: request.body.password,
-        profile: request.body.profile,
+        isAdmin: request.body.isAdmin,
         genre: request.body.genre,
         image_url: request.body.image_url,
         country: request.body.country,
-        cep: request.body.cep,
+        zipcode: request.body.zipcode,
         house_number: request.body.house_number,
       };
 
@@ -62,12 +63,13 @@ class UserController {
         last_name: request.body.last_name,
         email: request.body.email,
         phone: request.body.phone,
+        birthday: request.body.birthday,
         password: request.body.password,
-        profile: request.body.profile,
+        isAdmin: request.body.isAdmin,
         genre: request.body.genre,
         image_url: request.body.image_url,
         country: request.body.country,
-        cep: request.body.cep,
+        zipcode: request.body.zipcode,
         house_number: request.body.house_number,
       };
 

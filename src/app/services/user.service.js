@@ -4,8 +4,23 @@ const createError = require("http-errors");
 const prisma = new PrismaClient();
 
 require("dotenv").config();
+const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
+
+const schema = Joi.object({
+  name: Joi.string().required().trim(),
+  last_name: Joi.string(),
+  email: Joi.string().email().lowercase().required().trim(),
+  phone: Joi.string(),
+  password: Joi.string().min(8),
+  isAdmin: Joi.boolean().default(false),
+  genre: Joi.string().valid('male', 'female'),
+  image_url: Joi.string(),
+  country: Joi.string(),
+  zipcode: Joi.string().min(3).trim(),
+  house_number: Joi.string(),
+});
 
 class UserService {
   static createUser = async (payload) => {
@@ -13,29 +28,29 @@ class UserService {
 
     let validateUser;
 
-    if (payload.cep) {
-      const cep = await axios.get(
-        `https://brasilapi.com.br/api/cep/v1/${payload.cep}`
+    if (payload.zipcode) {
+      const zipcode = await axios.get(
+        `https://brasilapi.com.br/api/cep/v1/${payload.zipcode}`
       );
 
       validateUser = {
         ...payload,
-        state: cep.data.state,
-        city: cep.data.city,
-        neighborhood: cep.data.neighborhood,
-        street: cep.data.street,
+        state: zipcode.data.state,
+        city: zipcode.data.city,
+        neighborhood: zipcode.data.neighborhood,
+        street: zipcode.data.street,
       };
     }
 
-    if (!payload.cep) validateUser = payload;
+    if (!payload.zipcode) validateUser = payload;
 
     const user = await prisma.users.create({ data: validateUser });
 
-    this.removePassword(payload);
+    this.removePassword(user);
 
-    payload.accessToken = await jwt.signAccessToken(user);
+    user.accessToken = await jwt.signAccessToken(user);
 
-    return payload;
+    return user;
   };
 
   static getAllUsers = async () => {
@@ -63,21 +78,21 @@ class UserService {
   static updateUser = async (payload, guid) => {
     let user;
 
-    if (payload.cep) {
-      const cep = await axios.get(
-        `https://brasilapi.com.br/api/cep/v1/${payload.cep}`
+    if (payload.zipcode) {
+      const zipcode = await axios.get(
+        `https://brasilapi.com.br/api/cep/v1/${payload.zipcode}`
       );
 
       user = {
         ...payload,
-        state: cep.data.state,
-        city: cep.data.city,
-        neighborhood: cep.data.neighborhood,
-        street: cep.data.street,
+        state: zipcode.data.state,
+        city: zipcode.data.city,
+        neighborhood: zipcode.data.neighborhood,
+        street: zipcode.data.street,
       };
     }
 
-    if (!payload.cep) user = payload;
+    if (!payload.zipcode) user = payload;
 
     const updateUser = await prisma.users.update({
       where: {
