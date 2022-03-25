@@ -1,10 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
+const schema = require("../utils/schemas/videos");
 
 class AnimeService {
   static createAnime = async (payload) => {
-    const split = payload.trailer.split("https://youtu.be/");
+    const validate = schema.validate(payload).value;
+
+    const split = validate.trailer.split("https://youtu.be/");
 
     if (split[0])
       return createError.UnprocessableEntity("Invalid trailer link");
@@ -12,7 +15,7 @@ class AnimeService {
     const trailer = `https://www.youtube.com/embed/${split[1]}`;
 
     const validateAnime = {
-      ...payload,
+      ...validate,
       trailer: trailer,
     };
 
@@ -40,10 +43,12 @@ class AnimeService {
   };
 
   static updateAnime = async (payload, guid) => {
+    const validate = schema.validate(payload).value;
+    
     let trailer;
 
-    if (payload.trailer) {
-      const split = payload.trailer.split("https://youtu.be/");
+    if (validate.trailer) {
+      const split = validate.trailer.split("https://youtu.be/");
 
       if (split[0])
         return createError.UnprocessableEntity("Invalid trailer link");
@@ -52,7 +57,7 @@ class AnimeService {
     }
 
     const anime = {
-      ...payload,
+      ...validate,
       trailer: trailer,
     };
 

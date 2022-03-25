@@ -1,33 +1,18 @@
 const { PrismaClient } = require("@prisma/client");
 const { default: axios } = require("axios");
 const createError = require("http-errors");
+const schema = require("../utils/schemas/user");
 const prisma = new PrismaClient();
 
 require("dotenv").config();
-const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
 
-const schema = Joi.object().keys({
-  name: Joi.string().required().trim(),
-  last_name: Joi.string().trim(),
-  email: Joi.string().email().lowercase().required().trim(),
-  phone: Joi.string(),
-  birthday: Joi.date().required(),
-  password: Joi.string().min(8),
-  isAdmin: Joi.boolean().default(false),
-  genre: Joi.string().valid("male", "female"),
-  image_url: Joi.string(),
-  country: Joi.string(),
-  zipcode: Joi.string().min(3).trim(),
-  house_number: Joi.string(),
-});
-
 class UserService {
   static createUser = async (payload) => {
-    payload.password = bcrypt.hashSync(payload.password, 8);
-    
-    const validate = schema.validate(payload);
+    const validate = schema.validate(payload).value;
+
+    validate.password = bcrypt.hashSync(validate.password, 8);
 
     let validateUser;
 
@@ -47,7 +32,7 @@ class UserService {
 
     if (!validate.zipcode) validateUser = validate;
 
-    const user = await prisma.users.create({ data: validateUser.value });
+    const user = await prisma.users.create({ data: validateUser });
 
     this.removePassword(user);
 
@@ -80,7 +65,7 @@ class UserService {
 
   static updateUser = async (payload, guid) => {
     const validate = schema.validate(payload);
-    
+
     let user;
 
     if (validate.zipcode) {
