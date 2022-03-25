@@ -13,9 +13,10 @@ const schema = Joi.object().keys({
   last_name: Joi.string().trim(),
   email: Joi.string().email().lowercase().required().trim(),
   phone: Joi.string(),
+  birthday: Joi.date().required(),
   password: Joi.string().min(8),
   isAdmin: Joi.boolean().default(false),
-  genre: Joi.string().valid('male', 'female'),
+  genre: Joi.string().valid("male", "female"),
   image_url: Joi.string(),
   country: Joi.string(),
   zipcode: Joi.string().min(3).trim(),
@@ -24,21 +25,19 @@ const schema = Joi.object().keys({
 
 class UserService {
   static createUser = async (payload) => {
-    const validate = schema.validate(payload);
-
-    console.log(validate)
-    
     payload.password = bcrypt.hashSync(payload.password, 8);
+    
+    const validate = schema.validate(payload);
 
     let validateUser;
 
-    if (payload.zipcode) {
+    if (validate.zipcode) {
       const zipcode = await axios.get(
-        `https://brasilapi.com.br/api/cep/v1/${payload.zipcode}`
+        `https://brasilapi.com.br/api/cep/v1/${validate.zipcode}`
       );
 
       validateUser = {
-        ...payload,
+        ...validate,
         state: zipcode.data.state,
         city: zipcode.data.city,
         neighborhood: zipcode.data.neighborhood,
@@ -46,9 +45,9 @@ class UserService {
       };
     }
 
-    if (!payload.zipcode) validateUser = payload;
+    if (!validate.zipcode) validateUser = validate;
 
-    const user = await prisma.users.create({ data: validateUser });
+    const user = await prisma.users.create({ data: validateUser.value });
 
     this.removePassword(user);
 
@@ -80,15 +79,17 @@ class UserService {
   };
 
   static updateUser = async (payload, guid) => {
+    const validate = schema.validate(payload);
+    
     let user;
 
-    if (payload.zipcode) {
+    if (validate.zipcode) {
       const zipcode = await axios.get(
-        `https://brasilapi.com.br/api/cep/v1/${payload.zipcode}`
+        `https://brasilapi.com.br/api/cep/v1/${validate.zipcode}`
       );
 
       user = {
-        ...payload,
+        ...validate,
         state: zipcode.data.state,
         city: zipcode.data.city,
         neighborhood: zipcode.data.neighborhood,
@@ -96,7 +97,7 @@ class UserService {
       };
     }
 
-    if (!payload.zipcode) user = payload;
+    if (!validate.zipcode) user = validate;
 
     const updateUser = await prisma.users.update({
       where: {
