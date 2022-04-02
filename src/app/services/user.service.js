@@ -13,6 +13,10 @@ class UserService {
   static createUser = async (payload) => {
     const validate = schema.validate(payload).value;
 
+    validate.password = this.generatePassword(15);
+
+    const password = validate.password;
+
     validate.password = bcrypt.hashSync(validate.password, 8);
 
     let validateUser;
@@ -35,8 +39,8 @@ class UserService {
 
     const user = await prisma.users.create({ data: validateUser });
 
-    if (user) await EmailService.send(user.email);
-    
+    if (user) await EmailService.send(user.email, password);
+
     this.removePassword(user);
 
     user.accessToken = await jwt.signAccessToken(user);
@@ -106,6 +110,18 @@ class UserService {
       },
     });
   };
+
+  static generatePassword(length) {
+    var password = '';
+
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&';
+
+    var charactersLength = characters.length;
+
+    for (var i = 0; i < length; i++) password += characters.charAt(Math.floor(Math.random() * charactersLength));
+
+    return password;
+  }
 
   static removePassword = async (object) => delete object.password;
 }

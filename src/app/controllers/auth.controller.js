@@ -11,12 +11,7 @@ class AuthController {
 
       const access = await AuthService.login(payload);
 
-      response.status(200).json({
-        status: 200,
-        statusText: "OK",
-        message: "Account login successful",
-        data: access,
-      });
+      response.status(200).json(access);
     } catch (error) {
       message(createError(error.statusCode, error.message));
     }
