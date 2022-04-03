@@ -20,7 +20,16 @@ class EmailService {
       from: '"Cinemovie" <yankaiky@outlook.com>',
       to: email,
       subject: "Bem vindo Nemonauta",
-      text: `Sua senha: ${password}, acesse esse link para editar www.example.com`,
+      text: `Agora você tem acesso a filmes, séries e animes de forma gratuita`,
+      html: `<div>ESta é sua senha: <strong>${password}</strong><br />
+        É só acessar o link <a href="https://www.example.com">www.example.com</a> para editá-la<br />
+
+        <div style={ display: 'flex', justify-content: 'center' }>
+          <img src="https://i.pinimg.com/originals/2f/88/a9/2f88a9427474343f7275e3b8f6fcc2e1.jpg" alt="Catálogo de videos, imagem fictícia"/><br/>
+        </div>
+
+        Divirta-se!
+      </div>`,
     };
 
     transporter.sendMail(mail);
