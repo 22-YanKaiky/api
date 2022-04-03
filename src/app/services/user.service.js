@@ -39,7 +39,7 @@ class UserService {
 
     const user = await prisma.users.create({ data: validateUser });
 
-    if (user) await EmailService.send(user.email, password);
+    if (user) await EmailService.createUser(user.email, password);
 
     this.removePassword(user);
 
