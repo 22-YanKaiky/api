@@ -1,6 +1,6 @@
 module.exports = {
-  host: "outlook",
-  port: 587,
-  user: "yankaiky@outlook.com",
-  pass: process.env.PASSWORD,
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  user: process.env.SMTP_USER,
+  pass: process.env.SMTP_PASSWORD,
 }
