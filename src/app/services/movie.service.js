@@ -1,12 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
+const MailService = require('./mail.service');
 const schema = require("../utils/schemas/videos");
 
 class MovieService {
   static createMovie = async (payload) => {
     const validate = schema.validate(payload).value;
-    
+
     const split = validate.trailer.split("https://youtu.be/");
 
     if (split[0])

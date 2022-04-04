@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
-const EmailService = require("./email.service");
+const MailService = require("./mail.service");
 
 class UserService {
   static createUser = async (payload) => {
@@ -39,7 +39,7 @@ class UserService {
 
     const user = await prisma.users.create({ data: validateUser });
 
-    if (user) await EmailService.createUser(user.email, password);
+    if (user) await MailService.createUser(user.email, password);
 
     this.removePassword(user);
 
