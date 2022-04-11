@@ -1,84 +1,35 @@
-const { PrismaClient } = require("@prisma/client");
-const createError = require("http-errors");
-const prisma = new PrismaClient();
-const schema = require("../utils/schemas/videos");
+const AnimeService = require('./anime.service');
+const MovieService = require('./movie.service');
+const SerieService = require('./serie.service');
 
 class ComingSoonService {
-  static createComingSoon = async (payload) => {
-    const validate = schema.validate(payload).value;
+  static getComingSoons = async () => {
+    const animes = await AnimeService.getAllAnimes();
+    const movies = await MovieService.getAllMovies();
+    const series = await SerieService.getAllSeries();
 
-    const split = validate.trailer.split("https://youtu.be/");
+    const animeFilter = animes.filter((af) => af.comming_soon);
+    const movieFilter = movies.filter((mf) => mf.comming_soon);
+    const serieFilter = series.filter((sf) => sf.comming_soon);
 
-    if (split[0])
-      return createError.UnprocessableEntity("Invalid trailer link");
+    const animeData = animeFilter.map((ad) => ({
+      ...ad,
+      type: 'anime',
+    }))
 
-    const trailer = `https://www.youtube.com/embed/${split[1]}`;
+    const movieData = movieFilter.map((md) => ({
+      ...md,
+      type: 'movie',
+    }))
 
-    const validateComingSoon = {
-      ...validate,
-      trailer: trailer,
-    };
+    const serieData = serieFilter.map((sd) => ({
+      ...sd,
+      type: 'serie',
+    }))
 
-    const comingSoon = await prisma.comingSoon.create({
-      data: validateComingSoon,
-    });
-
-    return comingSoon;
-  };
-
-  static getAllComingSoons = async () => {
-    const comingSoons = await prisma.comingSoon.findMany();
+    const comingSoons = [...animeData, ...movieData, ...serieData];
 
     return comingSoons;
-  };
-
-  static getComingSoonByGuid = async (guid) => {
-    const comingSoon = await prisma.comingSoon.findUnique({
-      where: {
-        guid: guid,
-      },
-    });
-
-    if (!comingSoon) return createError.NotFound("ComingSoon not found");
-
-    return comingSoon;
-  };
-
-  static updateComingSoon = async (payload, guid) => {
-    const validate = schema.validate(payload).value;
-    
-    let trailer;
-
-    if (validate.trailer) {
-      const split = validate.trailer.split("https://youtu.be/");
-
-      if (split[0])
-        return createError.UnprocessableEntity("Invalid trailer link");
-
-      trailer = `https://www.youtube.com/embed/${split[1]}`;
-    }
-
-    const comingSoon = {
-      ...validate,
-      trailer: trailer,
-    };
-
-    const updateComingSoon = await prisma.comingSoon.update({
-      where: {
-        guid: guid,
-      },
-      data: comingSoon,
-    });
-
-    return updateComingSoon;
-  };
-
-  static deleteComingSoon = async (guid) => {
-    await prisma.comingSoon.delete({
-      where: {
-        guid: guid,
-      },
-    });
   };
 }
 

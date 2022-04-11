@@ -3,6 +3,8 @@ const Joi = require("joi");
 const schema = Joi.object().keys({
   name: Joi.string().required().trim(),
   link: Joi.string().trim(),
+  comming_soon: Joi.boolean().default(true).required(),
+  date: Joi.date(),
   genre: Joi.string().required(),
   seasons: Joi.number().required(),
   episodes: Joi.number().required(),

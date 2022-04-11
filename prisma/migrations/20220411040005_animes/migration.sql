@@ -3,6 +3,8 @@ CREATE TABLE "animes" (
     "guid" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "link" TEXT,
+    "comming_soon" BOOLEAN NOT NULL,
+    "date" TIMESTAMP(3),
     "genre" TEXT NOT NULL,
     "seasons" INTEGER NOT NULL,
     "episodes" INTEGER NOT NULL,

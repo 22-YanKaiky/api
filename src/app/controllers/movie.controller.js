@@ -7,6 +7,8 @@ class MovieController {
       const payload = {
         name: request.body.name,
         link: request.body.link,
+        comming_soon: request.body.comming_soon,
+        date: request.body.date,
         genre: request.body.genre,
         time: request.body.time,
         year: request.body.year,
@@ -53,6 +55,8 @@ class MovieController {
       const payload = {
         name: request.body.name,
         link: request.body.link,
+        comming_soon: request.body.comming_soon,
+        date: request.body.date,
         genre: request.body.genre,
         time: request.body.time,
         year: request.body.year,

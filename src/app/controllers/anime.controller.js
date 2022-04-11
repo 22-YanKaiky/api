@@ -7,6 +7,8 @@ class AnimeController {
       const payload = {
         name: request.body.name,
         link: request.body.link,
+        comming_soon: request.body.comming_soon,
+        date: request.body.date,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,
@@ -53,6 +55,8 @@ class AnimeController {
       const payload = {
         name: request.body.name,
         link: request.body.link,
+        comming_soon: request.body.comming_soon,
+        date: request.body.date,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,

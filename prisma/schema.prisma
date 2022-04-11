@@ -37,66 +37,58 @@ model Users {
 }
 
 model Animes {
-  guid      String   @id @unique() @default(uuid()) @db.Uuid
-  name      String   @unique
-  link      String?
-  genre     String
-  seasons   Int
-  episodes  Int
-  year      Int
-  synopsis  String
-  folder    String
-  trailer   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  guid         String    @id @unique() @default(uuid()) @db.Uuid
+  name         String    @unique
+  link         String?
+  comming_soon Boolean
+  date         DateTime?
+  genre        String
+  seasons      Int
+  episodes     Int
+  year         Int
+  synopsis     String
+  folder       String
+  trailer      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
 
   @@map("animes")
 }
 
 model Movies {
-  guid      String   @id @unique() @default(uuid()) @db.Uuid
-  name      String   @unique
-  link      String?
-  genre     String
-  time      String
-  year      Int
-  direction String
-  synopsis  String
-  folder    String
-  trailer   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  guid         String    @id @unique() @default(uuid()) @db.Uuid
+  name         String    @unique
+  link         String?
+  comming_soon Boolean
+  date         DateTime?
+  genre        String
+  time         String
+  year         Int
+  direction    String
+  synopsis     String
+  folder       String
+  trailer      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
 
   @@map("movies")
 }
 
 model Series {
-  guid      String   @id @unique() @default(uuid()) @db.Uuid
-  name      String   @unique
-  link      String?
-  genre     String
-  seasons   Int
-  episodes  Int
-  year      Int
-  synopsis  String
-  folder    String
-  trailer   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  guid         String    @id @unique() @default(uuid()) @db.Uuid
+  name         String    @unique
+  link         String?
+  comming_soon Boolean
+  date         DateTime?
+  genre        String
+  seasons      Int
+  episodes     Int
+  year         Int
+  synopsis     String
+  folder       String
+  trailer      String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
 
   @@map("series")
-}
-
-model ComingSoon {
-  guid      String   @id @unique() @default(uuid()) @db.Uuid
-  name      String   @unique
-  genre     String
-  date      DateTime @db.Date
-  synopsis  String
-  folder    String
-  trailer   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-
-  @@map("coming_soon")
 }
