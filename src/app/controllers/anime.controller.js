@@ -50,6 +50,23 @@ class AnimeController {
     }
   };
 
+  static patchAnime = async (request, response, message) => {
+    try {
+      const guid = request.params.guid;
+
+      const payload = {
+        like: request.body.like,
+        dislike: request.body.dislike,
+      };
+
+      const anime = await AnimeService.patchAnime(payload, guid);
+
+      response.status(200).json(anime);
+    } catch (error) {
+      message(createError(error.statusCode, error.message));
+    }
+  };
+
   static updateAnime = async (request, response, message) => {
     try {
       const guid = request.params.guid;

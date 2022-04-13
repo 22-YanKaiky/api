@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
-const MailService = require('./mail.service');
+const likeSchema = require('../utils/schemas/videosLike');
 const schema = require("../utils/schemas/videos");
 
 class MovieService {
@@ -42,6 +42,23 @@ class MovieService {
 
     return movie;
   };
+
+  static patchMovie = async (payload, guid) => {
+    const validate = likeSchema.validate(payload).value;
+
+    if (validate.like) validate.dislike = false
+
+    if (validate.dislike) validate.like = false
+
+    const patchMovie = await prisma.movies.updateMany({
+      where: {
+        guid: guid
+      },
+      data: validate
+    })
+
+    return patchMovie;
+  }
 
   static updateMovie = async (payload, guid) => {
     const validate = schema.validate(payload).value;

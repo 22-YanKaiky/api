@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
+const likeSchema = require('../utils/schemas/videosLike');
 const schema = require("../utils/schemas/videos");
 
 class SerieService {
@@ -41,6 +42,23 @@ class SerieService {
 
     return serie;
   };
+
+  static patchSerie = async (payload, guid) => {
+    const validate = likeSchema.validate(payload).value;
+
+    if (validate.like) validate.dislike = false
+
+    if (validate.dislike) validate.like = false
+
+    const patchSerie = await prisma.series.updateMany({
+      where: {
+        guid: guid
+      },
+      data: validate
+    })
+
+    return patchSerie;
+  }
 
   static updateSerie = async (payload, guid) => {
     const validate = schema.validate(payload).value;

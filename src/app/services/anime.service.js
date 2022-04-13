@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
 const schema = require("../utils/schemas/videos");
+const likeSchema = require("../utils/schemas/videosLike");
 
 class AnimeService {
   static createAnime = async (payload) => {
@@ -42,9 +43,26 @@ class AnimeService {
     return anime;
   };
 
+  static patchAnime = async (payload, guid) => {
+    const validate = likeSchema.validate(payload).value;
+
+    if (validate.like) validate.dislike = false
+
+    if (validate.dislike) validate.like = false
+
+    const patchAnime = await prisma.animes.updateMany({
+      where: {
+        guid: guid
+      },
+      data: validate
+    })
+
+    return patchAnime;
+  }
+
   static updateAnime = async (payload, guid) => {
     const validate = schema.validate(payload).value;
-    
+
     let trailer;
 
     if (validate.trailer) {

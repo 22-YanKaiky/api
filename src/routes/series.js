@@ -10,6 +10,8 @@ router.get("/", auth, SerieController.getAllSeries);
 
 router.get("/:guid", auth, SerieController.getSerieByGuid);
 
+router.patch("/:guid", auth, SerieController.patchSerie);
+
 router.put("/:guid", auth, SerieController.updateSerie);
 
 router.delete("/:guid", auth, SerieController.deleteSerie);

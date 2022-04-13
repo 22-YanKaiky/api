@@ -50,6 +50,23 @@ class MovieController {
     }
   };
 
+  static patchMovie = async (request, response, message) => {
+    try {
+      const guid = request.params.guid;
+
+      const payload = {
+        like: request.body.like,
+        dislike: request.body.dislike,
+      };
+
+      const movie = await MovieService.patchMovie(payload, guid);
+
+      response.status(200).json(movie);
+    } catch (error) {
+      message(createError(error.statusCode, error.message));
+    }
+  };
+
   static updateMovie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
