@@ -42,6 +42,8 @@ model Animes {
   link         String?
   comming_soon Boolean
   date         DateTime?
+  like         Int?      @default(0)
+  dislike      Int?      @default(0)
   genre        String
   seasons      Int
   episodes     Int
@@ -61,6 +63,8 @@ model Movies {
   link         String?
   comming_soon Boolean
   date         DateTime?
+  like         Int?      @default(0)
+  dislike      Int?      @default(0)
   genre        String
   time         String
   year         Int
@@ -80,6 +84,8 @@ model Series {
   link         String?
   comming_soon Boolean
   date         DateTime?
+  like         Int?      @default(0)
+  dislike      Int?      @default(0)
   genre        String
   seasons      Int
   episodes     Int
