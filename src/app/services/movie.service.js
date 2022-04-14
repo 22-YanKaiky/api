@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
 const likeSchema = require('../utils/schemas/videosLike');
-const schema = require("../utils/schemas/videos");
+const schema = require("../utils/schemas/movies");
 
 class MovieService {
   static createMovie = async (payload) => {
@@ -46,9 +46,16 @@ class MovieService {
   static patchMovie = async (payload, guid) => {
     const validate = likeSchema.validate(payload).value;
 
-    if (validate.like) validate.dislike = false
+    if (validate.like) {
+      // Trazer do banco o valor total + 1
+      validate.quantity_likes = validate.quantity_likes + 1;
+      validate.dislike = false;
+    }
 
-    if (validate.dislike) validate.like = false
+    if (validate.dislike) {
+      validate.like = false;
+      validate.quantity_dislikes = validate.quantity_dislikes + 1;
+    }
 
     const patchMovie = await prisma.movies.updateMany({
       where: {
@@ -57,6 +64,8 @@ class MovieService {
       data: validate
     })
 
+    // user_movie_likes
+    
     return patchMovie;
   }
 

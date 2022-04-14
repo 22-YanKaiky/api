@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
 const likeSchema = require('../utils/schemas/videosLike');
-const schema = require("../utils/schemas/videos");
+const schema = require("../utils/schemas/series.animes");
 
 class SerieService {
   static createSerie = async (payload) => {

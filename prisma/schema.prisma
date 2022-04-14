@@ -33,8 +33,10 @@ model Users {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
 
-  @@map("users")
   UserMovieLikes UserMovieLikes[]
+  UserSerieLikes UserSerieLikes[]
+  @@map("users")
+  UserAnimeLikes UserAnimeLikes[]
 }
 
 model Animes {
@@ -58,6 +60,7 @@ model Animes {
   updatedAt         DateTime  @default(now()) @updatedAt
 
   @@map("animes")
+  UserAnimeLikes UserAnimeLikes[]
 }
 
 model Movies {
@@ -80,8 +83,8 @@ model Movies {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
 
-  @@map("movies")
   UserMovieLikes UserMovieLikes[]
+  @@map("movies")
 }
 
 model Series {
@@ -104,6 +107,7 @@ model Series {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
 
+  UserSerieLikes UserSerieLikes[]
   @@map("series")
 }
 
@@ -111,10 +115,34 @@ model UserMovieLikes {
   guid       String   @id @unique() @default(uuid()) @db.Uuid
   user_guid  String   @db.Uuid
   user       Users    @relation(fields: [user_guid], references: [guid])
-  video_guid String   @db.Uuid
-  movie      Movies   @relation(fields: [video_guid], references: [guid])
+  movie_guid String   @db.Uuid
+  movie      Movies   @relation(fields: [movie_guid], references: [guid])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("user_movie_likes")
+}
+
+model UserSerieLikes {
+  guid       String   @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String   @db.Uuid
+  user       Users    @relation(fields: [user_guid], references: [guid])
+  serie_guid String   @db.Uuid
+  serie      Series   @relation(fields: [serie_guid], references: [guid])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("user_serie_likes")
+}
+
+model UserAnimeLikes {
+  guid       String   @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String   @db.Uuid
+  user       Users    @relation(fields: [user_guid], references: [guid])
+  anime_guid String   @db.Uuid
+  anime      Animes   @relation(fields: [anime_guid], references: [guid])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("user_anime_likes")
 }

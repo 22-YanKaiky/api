@@ -11,6 +11,8 @@ class MovieController {
         date: request.body.date,
         like: request.body.like,
         dislike: request.body.dislike,
+        quantity_likes: request.body.quantity_likes,
+        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         time: request.body.time,
         year: request.body.year,
@@ -57,6 +59,8 @@ class MovieController {
       const payload = {
         like: request.body.like,
         dislike: request.body.dislike,
+        quantity_likes: request.body.quantity_likes,
+        quantity_dislikes: request.body.quantity_dislikes,
       };
 
       const movie = await MovieService.patchMovie(payload, guid);
@@ -78,6 +82,8 @@ class MovieController {
         date: request.body.date,
         like: request.body.like,
         dislike: request.body.dislike,
+        quantity_likes: request.body.quantity_likes,
+        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         time: request.body.time,
         year: request.body.year,

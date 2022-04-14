@@ -11,6 +11,8 @@ class AnimeController {
         date: request.body.date,
         like: request.body.like,
         dislike: request.body.dislike,
+        quantity_likes: request.body.quantity_likes,
+        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,
@@ -57,6 +59,8 @@ class AnimeController {
       const payload = {
         like: request.body.like,
         dislike: request.body.dislike,
+        quantity_likes: request.body.quantity_likes,
+        quantity_dislikes: request.body.quantity_dislikes,
       };
 
       const anime = await AnimeService.patchAnime(payload, guid);
@@ -78,6 +82,8 @@ class AnimeController {
         date: request.body.date,
         like: request.body.like,
         dislike: request.body.dislike,
+        quantity_likes: request.body.quantity_likes,
+        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,
