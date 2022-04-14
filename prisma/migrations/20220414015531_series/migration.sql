@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "animes" (
+CREATE TABLE "series" (
     "guid" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "link" TEXT,
@@ -7,6 +7,8 @@ CREATE TABLE "animes" (
     "date" TIMESTAMP(3),
     "like" BOOLEAN DEFAULT false,
     "dislike" BOOLEAN DEFAULT false,
+    "quantity_likes" INTEGER DEFAULT 0,
+    "quantity_dislikes" INTEGER DEFAULT 0,
     "genre" TEXT NOT NULL,
     "seasons" INTEGER NOT NULL,
     "episodes" INTEGER NOT NULL,
@@ -17,11 +19,11 @@ CREATE TABLE "animes" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "animes_pkey" PRIMARY KEY ("guid")
+    CONSTRAINT "series_pkey" PRIMARY KEY ("guid")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "animes_guid_key" ON "animes"("guid");
+CREATE UNIQUE INDEX "series_guid_key" ON "series"("guid");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "animes_name_key" ON "animes"("name");
+CREATE UNIQUE INDEX "series_name_key" ON "series"("name");

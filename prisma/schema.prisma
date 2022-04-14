@@ -38,65 +38,71 @@ model Users {
 }
 
 model Animes {
-  guid         String    @id @unique() @default(uuid()) @db.Uuid
-  name         String    @unique
-  link         String?
-  comming_soon Boolean
-  date         DateTime?
-  like         Boolean?  @default(false)
-  dislike      Boolean?  @default(false)
-  genre        String
-  seasons      Int
-  episodes     Int
-  year         Int
-  synopsis     String
-  folder       String
-  trailer      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @default(now()) @updatedAt
+  guid              String    @id @unique() @default(uuid()) @db.Uuid
+  name              String    @unique
+  link              String?
+  comming_soon      Boolean
+  date              DateTime?
+  like              Boolean?  @default(false)
+  dislike           Boolean?  @default(false)
+  quantity_likes    Int?      @default(0)
+  quantity_dislikes Int?      @default(0)
+  genre             String
+  seasons           Int
+  episodes          Int
+  year              Int
+  synopsis          String
+  folder            String
+  trailer           String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
 
   @@map("animes")
 }
 
 model Movies {
-  guid         String    @id @unique() @default(uuid()) @db.Uuid
-  name         String    @unique
-  link         String?
-  comming_soon Boolean
-  date         DateTime?
-  like         Boolean?  @default(false)
-  dislike      Boolean?  @default(false)
-  genre        String
-  time         String
-  year         Int
-  direction    String
-  synopsis     String
-  folder       String
-  trailer      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @default(now()) @updatedAt
+  guid              String    @id @unique() @default(uuid()) @db.Uuid
+  name              String    @unique
+  link              String?
+  comming_soon      Boolean
+  date              DateTime?
+  like              Boolean?  @default(false)
+  dislike           Boolean?  @default(false)
+  quantity_likes    Int?      @default(0)
+  quantity_dislikes Int?      @default(0)
+  genre             String
+  time              String
+  year              Int
+  direction         String
+  synopsis          String
+  folder            String
+  trailer           String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
 
   @@map("movies")
   UserMovieLikes UserMovieLikes[]
 }
 
 model Series {
-  guid         String    @id @unique() @default(uuid()) @db.Uuid
-  name         String    @unique
-  link         String?
-  comming_soon Boolean
-  date         DateTime?
-  like         Boolean?  @default(false)
-  dislike      Boolean?  @default(false)
-  genre        String
-  seasons      Int
-  episodes     Int
-  year         Int
-  synopsis     String
-  folder       String
-  trailer      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @default(now()) @updatedAt
+  guid              String    @id @unique() @default(uuid()) @db.Uuid
+  name              String    @unique
+  link              String?
+  comming_soon      Boolean
+  date              DateTime?
+  like              Boolean?  @default(false)
+  dislike           Boolean?  @default(false)
+  quantity_likes    Int?      @default(0)
+  quantity_dislikes Int?      @default(0)
+  genre             String
+  seasons           Int
+  episodes          Int
+  year              Int
+  synopsis          String
+  folder            String
+  trailer           String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
 
   @@map("series")
 }
