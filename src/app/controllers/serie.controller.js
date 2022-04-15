@@ -55,6 +55,7 @@ class SerieController {
   static patchSerie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
+      const user_guid = request.params.user_guid;
 
       const payload = {
         like: request.body.like,
@@ -63,7 +64,7 @@ class SerieController {
         quantity_dislikes: request.body.quantity_dislikes,
       };
 
-      const serie = await SerieService.patchSerie(payload, guid);
+      const serie = await SerieService.patchSerie(guid, user_guid, payload);
 
       response.status(200).json(serie);
     } catch (error) {

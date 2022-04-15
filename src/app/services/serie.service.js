@@ -43,7 +43,7 @@ class SerieService {
     return serie;
   };
 
-  static patchSerie = async (payload, guid) => {
+  static patchSerie = async (guid, user_guid, payload) => {
     const validate = likeSchema.validate(payload).value;
 
     const validateQuantity = await prisma.series.findUnique({
@@ -72,6 +72,35 @@ class SerieService {
       },
       data: validate
     })
+
+    /**
+    * Tabela de user_serie_likes
+    */
+    const data = {
+      user_guid: user_guid,
+      serie_guid: guid,
+    }
+
+    const arraySeries = await prisma.userSerieLikes.findMany({
+      where: {
+        serie_guid: guid,
+      }
+    })
+
+    const serie = arraySeries.filter((u) => u.user_guid === user_guid)[0];
+
+    if (serie) {
+      await prisma.userSerieLikes.update({
+        where: {
+          guid: serie.guid,
+        },
+        data: data
+      })
+    } else {
+      await prisma.userSerieLikes.create({
+        data: data
+      })
+    }
 
     return patchSerie;
   }

@@ -10,7 +10,7 @@ router.get("/", auth, AnimeController.getAllAnimes);
 
 router.get("/:guid", auth, AnimeController.getAnimeByGuid);
 
-router.patch("/:guid", auth, AnimeController.patchAnime);
+router.patch("/:guid/:user_guid", auth, AnimeController.patchAnime);
 
 router.put("/:guid", auth, AnimeController.updateAnime);
 

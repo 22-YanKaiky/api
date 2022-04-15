@@ -55,6 +55,7 @@ class AnimeController {
   static patchAnime = async (request, response, message) => {
     try {
       const guid = request.params.guid;
+      const user_guid = request.params.user_guid;
 
       const payload = {
         like: request.body.like,
@@ -63,7 +64,7 @@ class AnimeController {
         quantity_dislikes: request.body.quantity_dislikes,
       };
 
-      const anime = await AnimeService.patchAnime(payload, guid);
+      const anime = await AnimeService.patchAnime(guid, user_guid, payload);
 
       response.status(200).json(anime);
     } catch (error) {

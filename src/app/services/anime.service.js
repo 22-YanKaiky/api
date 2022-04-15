@@ -1,8 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
-const schema = require("../utils/schemas/series.animes");
 const likeSchema = require("../utils/schemas/videosLike");
+const schema = require("../utils/schemas/series.animes");
 
 class AnimeService {
   static createAnime = async (payload) => {
@@ -43,7 +43,7 @@ class AnimeService {
     return anime;
   };
 
-  static patchAnime = async (payload, guid) => {
+  static patchAnime = async (guid, user_guid, payload) => {
     const validate = likeSchema.validate(payload).value;
 
     const validateQuantity = await prisma.animes.findUnique({
@@ -72,6 +72,35 @@ class AnimeService {
       },
       data: validate
     })
+
+    /**
+     * Tabela de user_serie_likes
+     */
+    const data = {
+      user_guid: user_guid,
+      anime_guid: guid,
+    }
+
+    const arrayAnimes = await prisma.userAnimeLikes.findMany({
+      where: {
+        anime_guid: guid,
+      }
+    })
+
+    const anime = arrayAnimes.filter((u) => u.user_guid === user_guid)[0];
+
+    if (anime) {
+      await prisma.userAnimeLikes.update({
+        where: {
+          guid: anime.guid,
+        },
+        data: data
+      })
+    } else {
+      await prisma.userAnimeLikes.create({
+        data: data
+      })
+    }
 
     return patchAnime;
   }
