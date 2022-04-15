@@ -46,15 +46,24 @@ class MovieService {
   static patchMovie = async (payload, guid) => {
     const validate = likeSchema.validate(payload).value;
 
+    const validateQuantity = await prisma.movies.findUnique({
+      where: {
+        guid: guid
+      }
+    });
+
     if (validate.like) {
-      // Trazer do banco o valor total + 1
-      validate.quantity_likes = validate.quantity_likes + 1;
       validate.dislike = false;
+      validate.quantity_likes = validateQuantity.quantity_likes + 1;
+    } else {
+      validate.quantity_likes = validateQuantity.quantity_likes;
     }
 
     if (validate.dislike) {
       validate.like = false;
-      validate.quantity_dislikes = validate.quantity_dislikes + 1;
+      validate.quantity_dislikes = validateQuantity.quantity_dislikes + 1;
+    } else {
+      validate.quantity_dislikes = validateQuantity.quantity_dislikes;
     }
 
     const patchMovie = await prisma.movies.updateMany({
@@ -64,8 +73,6 @@ class MovieService {
       data: validate
     })
 
-    // user_movie_likes
-    
     return patchMovie;
   }
 
