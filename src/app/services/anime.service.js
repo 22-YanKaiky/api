@@ -46,9 +46,25 @@ class AnimeService {
   static patchAnime = async (payload, guid) => {
     const validate = likeSchema.validate(payload).value;
 
-    if (validate.like) validate.dislike = false
+    const validateQuantity = await prisma.animes.findUnique({
+      where: {
+        guid: guid
+      }
+    });
 
-    if (validate.dislike) validate.like = false
+    if (validate.like) {
+      validate.dislike = false;
+      validate.quantity_likes = validateQuantity.quantity_likes + 1;
+    } else {
+      validate.quantity_likes = validateQuantity.quantity_likes;
+    }
+
+    if (validate.dislike) {
+      validate.like = false;
+      validate.quantity_dislikes = validateQuantity.quantity_dislikes + 1;
+    } else {
+      validate.quantity_dislikes = validateQuantity.quantity_dislikes;
+    }
 
     const patchAnime = await prisma.animes.updateMany({
       where: {

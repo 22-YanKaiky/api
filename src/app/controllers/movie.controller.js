@@ -55,6 +55,7 @@ class MovieController {
   static patchMovie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
+      const user_guid = request.params.user_guid;
 
       const payload = {
         like: request.body.like,
@@ -63,7 +64,7 @@ class MovieController {
         quantity_dislikes: request.body.quantity_dislikes,
       };
 
-      const movie = await MovieService.patchMovie(payload, guid);
+      const movie = await MovieService.patchMovie(guid, user_guid, payload);
 
       response.status(200).json(movie);
     } catch (error) {

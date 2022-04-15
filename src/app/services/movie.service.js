@@ -43,7 +43,7 @@ class MovieService {
     return movie;
   };
 
-  static patchMovie = async (payload, guid) => {
+  static patchMovie = async (guid, user_guid, payload) => {
     const validate = likeSchema.validate(payload).value;
 
     const validateQuantity = await prisma.movies.findUnique({
@@ -72,6 +72,35 @@ class MovieService {
       },
       data: validate
     })
+
+    /**
+     * Tabela de user_movie_likes
+     */
+    const data = {
+      user_guid: user_guid,
+      movie_guid: guid,
+    }
+
+    const arrayMovies = await prisma.userMovieLikes.findMany({
+      where: {
+        movie_guid: guid,
+      }
+    })
+
+    const movie = arrayMovies.filter((u) => u.user_guid === user_guid)[0];
+
+    if (movie) {
+      await prisma.userMovieLikes.update({
+        where: {
+          guid: movie.guid,
+        },
+        data: data
+      })
+    } else {
+      await prisma.userMovieLikes.create({
+        data: data
+      })
+    }
 
     return patchMovie;
   }
