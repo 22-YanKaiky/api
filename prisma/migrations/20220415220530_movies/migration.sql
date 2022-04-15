@@ -5,8 +5,6 @@ CREATE TABLE "movies" (
     "link" TEXT,
     "comming_soon" BOOLEAN NOT NULL,
     "date" TIMESTAMP(3),
-    "like" BOOLEAN DEFAULT false,
-    "dislike" BOOLEAN DEFAULT false,
     "quantity_likes" INTEGER DEFAULT 0,
     "quantity_dislikes" INTEGER DEFAULT 0,
     "genre" TEXT NOT NULL,

@@ -3,6 +3,8 @@ CREATE TABLE "user_anime_likes" (
     "guid" UUID NOT NULL,
     "user_guid" UUID NOT NULL,
     "anime_guid" UUID NOT NULL,
+    "like" BOOLEAN DEFAULT false,
+    "dislike" BOOLEAN DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
