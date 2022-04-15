@@ -35,8 +35,8 @@ model Users {
 
   UserMovieLikes UserMovieLikes[]
   UserSerieLikes UserSerieLikes[]
-  @@map("users")
   UserAnimeLikes UserAnimeLikes[]
+  @@map("users")
 }
 
 model Animes {
@@ -57,8 +57,8 @@ model Animes {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
 
-  @@map("animes")
   UserAnimeLikes UserAnimeLikes[]
+  @@map("animes")
 }
 
 model Movies {
@@ -111,6 +111,7 @@ model UserMovieLikes {
   user       Users    @relation(fields: [user_guid], references: [guid])
   movie_guid String   @db.Uuid
   movie      Movies   @relation(fields: [movie_guid], references: [guid])
+  favorite   Boolean?
   like       Boolean? @default(false)
   dislike    Boolean? @default(false)
   createdAt  DateTime @default(now())
@@ -125,6 +126,7 @@ model UserSerieLikes {
   user       Users    @relation(fields: [user_guid], references: [guid])
   serie_guid String   @db.Uuid
   serie      Series   @relation(fields: [serie_guid], references: [guid])
+  favorite   Boolean?
   like       Boolean? @default(false)
   dislike    Boolean? @default(false)
   createdAt  DateTime @default(now())
@@ -139,6 +141,7 @@ model UserAnimeLikes {
   user       Users    @relation(fields: [user_guid], references: [guid])
   anime_guid String   @db.Uuid
   anime      Animes   @relation(fields: [anime_guid], references: [guid])
+  favorite   Boolean?
   like       Boolean? @default(false)
   dislike    Boolean? @default(false)
   createdAt  DateTime @default(now())
