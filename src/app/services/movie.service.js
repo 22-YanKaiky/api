@@ -15,14 +15,14 @@ class MovieService {
 
     const trailer = `https://www.youtube.com/embed/${split[1]}`;
 
-    const movie = {
+    const validateMovie = {
       ...validate,
       trailer: trailer,
     };
 
-    const newMovie = await prisma.movies.create({ data: movie });
+    const movie = await prisma.movies.create({ data: validateMovie });
 
-    return newMovie;
+    return movie;
   };
 
   static getAllMovies = async () => {

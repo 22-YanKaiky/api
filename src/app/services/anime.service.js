@@ -70,7 +70,7 @@ class AnimeService {
     })
 
     /**
-     * Tabela de user_serie_likes
+     * Tabela de user_anime_likes
      */
     const data = {
       user_guid: user_guid,
