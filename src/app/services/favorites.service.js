@@ -13,7 +13,7 @@ class FavoritesService {
       }
     });
 
-    const animeFavorites = userAnimes.filter((f) => f.favorite);
+    const animeFavorites = this.videoFavorites(userAnimes);
 
     for (const anime of animeFavorites) {
       const video = await prisma.animes.findUnique({
@@ -31,7 +31,7 @@ class FavoritesService {
       }
     });
 
-    const movieFavorites = userMovies.filter((f) => f.favorite);
+    const movieFavorites = this.videoFavorites(userMovies);
 
     for (const movie of movieFavorites) {
       const video = await prisma.movies.findUnique({
@@ -49,7 +49,7 @@ class FavoritesService {
       }
     });
 
-    const serieFavorites = userSeries.filter((f) => f.favorite);
+    const serieFavorites = this.videoFavorites(userSeries);
 
     for (const serie of serieFavorites) {
       const video = await prisma.series.findUnique({
@@ -78,6 +78,10 @@ class FavoritesService {
 
     return [...animesFavorite, ...moviesFavorite, ...seriesFavorite];
   };
+
+  static videoFavorites = (findPrisma) => {
+    return findPrisma.filter((f) => f.favorite);
+  }
 }
 
 module.exports = FavoritesService;
