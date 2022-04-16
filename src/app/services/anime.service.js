@@ -66,7 +66,7 @@ class AnimeService {
       where: {
         guid: guid
       },
-      data: validate
+      data: anime
     })
 
     /**
