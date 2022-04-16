@@ -7,23 +7,12 @@ class FavoritesService {
     const movies = [];
     const series = [];
 
+    /** Find in user_likes */
     const userAnimes = await prisma.userAnimeLikes.findMany({
       where: {
         user_guid: user_guid,
       }
     });
-
-    const animeFavorites = this.videoFavorites(userAnimes);
-
-    for (const anime of animeFavorites) {
-      const video = await prisma.animes.findUnique({
-        where: {
-          guid: anime.anime_guid
-        }
-      })
-
-      if (video) animes.push(video);
-    }
 
     const userMovies = await prisma.userMovieLikes.findMany({
       where: {
@@ -31,36 +20,20 @@ class FavoritesService {
       }
     });
 
-    const movieFavorites = this.videoFavorites(userMovies);
-
-    for (const movie of movieFavorites) {
-      const video = await prisma.movies.findUnique({
-        where: {
-          guid: movie.movie_guid
-        }
-      })
-
-      if (video) movies.push(video);
-    }
-
     const userSeries = await prisma.userSerieLikes.findMany({
       where: {
         user_guid: user_guid,
       }
     });
 
-    const serieFavorites = this.videoFavorites(userSeries);
+    /** Functions to find in video tables */
+    await this.videoFavorites(userAnimes, animes, 'anime');
 
-    for (const serie of serieFavorites) {
-      const video = await prisma.series.findUnique({
-        where: {
-          guid: serie.serie_guid
-        }
-      })
+    await this.videoFavorites(userMovies, movies, 'movie');
 
-      if (video) series.push(video);
-    }
+    await this.videoFavorites(userSeries, series, 'serie');
 
+    /** New Array with type video */
     const animesFavorite = animes.map((a) => ({
       ...a,
       type: 'anime'
@@ -79,8 +52,28 @@ class FavoritesService {
     return [...animesFavorite, ...moviesFavorite, ...seriesFavorite];
   };
 
-  static videoFavorites = (findPrisma) => {
-    return findPrisma.filter((f) => f.favorite);
+  static videoFavorites = async (findPrisma, array, type) => {
+    const videoFavorite = findPrisma.filter((f) => f.favorite);
+
+    for (const video of videoFavorite) {
+      const value = (
+        type === 'anime' ? await prisma.animes.findUnique({
+          where: {
+            guid: video.anime_guid
+          }
+        }) :
+          type === 'movie' ? await prisma.movies.findUnique({
+            where: {
+              guid: video.movie_guid
+            }
+          }) : await prisma.series.findUnique({
+            where: {
+              guid: video.serie_guid
+            }
+          }))
+
+      if (value) array.push(value);
+    }
   }
 }
 
