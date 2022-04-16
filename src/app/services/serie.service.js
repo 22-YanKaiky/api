@@ -1,8 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
-const likeSchema = require('../utils/schemas/videosLike');
-const schema = require("../utils/schemas/series.animes");
+const quantityLikeSchema = require('../utils/schemas/quantity.like.favorite.schema');
+const schema = require("../utils/schemas/series.animes.schema");
 
 class SerieService {
   static createSerie = async (payload) => {
@@ -44,9 +44,9 @@ class SerieService {
   };
 
   static patchSerie = async (guid, user_guid, payload) => {
-    const validate = likeSchema.validate(payload).value;
+    const validate = quantityLikeSchema.validate(payload).value;
 
-    const validateQuantity = await prisma.series.findUnique({
+    const serie = await prisma.series.findUnique({
       where: {
         guid: guid
       }
@@ -54,23 +54,19 @@ class SerieService {
 
     if (validate.like) {
       validate.dislike = false;
-      validate.quantity_likes = validateQuantity.quantity_likes + 1;
-    } else {
-      validate.quantity_likes = validateQuantity.quantity_likes;
+      serie.quantity_likes = serie.quantity_likes + 1;
     }
 
     if (validate.dislike) {
       validate.like = false;
-      validate.quantity_dislikes = validateQuantity.quantity_dislikes + 1;
-    } else {
-      validate.quantity_dislikes = validateQuantity.quantity_dislikes;
+      serie.quantity_dislikes = serie.quantity_dislikes + 1;
     }
 
-    const patchSerie = await prisma.series.updateMany({
+    const patchSerie = await prisma.series.update({
       where: {
         guid: guid
       },
-      data: validate
+      data: serie
     })
 
     /**
@@ -79,6 +75,9 @@ class SerieService {
     const data = {
       user_guid: user_guid,
       serie_guid: guid,
+      like: validate.like,
+      dislike: validate.dislike,
+      favorite: validate.favorite
     }
 
     const arraySeries = await prisma.userSerieLikes.findMany({
@@ -87,12 +86,12 @@ class SerieService {
       }
     })
 
-    const serie = arraySeries.filter((u) => u.user_guid === user_guid)[0];
+    const userSerie = arraySeries.filter((u) => u.user_guid === user_guid)[0];
 
-    if (serie) {
+    if (userSerie) {
       await prisma.userSerieLikes.update({
         where: {
-          guid: serie.guid,
+          guid: userSerie.guid,
         },
         data: data
       })

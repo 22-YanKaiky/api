@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const { default: axios } = require("axios");
 const createError = require("http-errors");
-const schema = require("../utils/schemas/user");
+const schema = require("../utils/schemas/user.schema");
 const prisma = new PrismaClient();
 
 require("dotenv").config();

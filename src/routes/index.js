@@ -8,6 +8,7 @@ const auth = require("./auth");
 const movies = require("./movies");
 const series = require("./series");
 const users = require("./users");
+const favorites = require("./favorites");
 const comingSoon = require("./coming.soon");
 
 router.get("/", (_, response) => response.status(200).json({ message: `© ${new Date().getUTCFullYear()}, Cinemovie` }));
@@ -18,6 +19,7 @@ router.use("/zipcode", zipcode);
 router.use("/movies", movies);
 router.use("/series", series);
 router.use("/users", users);
+router.use("/favorites", favorites);
 router.use("/coming-soon", comingSoon);
 
 router.use(async (_, __, message) => message(createError.NotFound("Route not Found")));

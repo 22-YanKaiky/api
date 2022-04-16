@@ -1,8 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
-const likeSchema = require('../utils/schemas/videosLike');
-const schema = require("../utils/schemas/movies");
+const quantityLikeSchema = require('../utils/schemas/quantity.like.favorite.schema');
+const schema = require("../utils/schemas/movies.schema");
 
 class MovieService {
   static createMovie = async (payload) => {
@@ -44,9 +44,9 @@ class MovieService {
   };
 
   static patchMovie = async (guid, user_guid, payload) => {
-    const validate = likeSchema.validate(payload).value;
+    const validate = quantityLikeSchema.validate(payload).value;
 
-    const validateQuantity = await prisma.movies.findUnique({
+    const movie = await prisma.movies.findUnique({
       where: {
         guid: guid
       }
@@ -54,23 +54,19 @@ class MovieService {
 
     if (validate.like) {
       validate.dislike = false;
-      validate.quantity_likes = validateQuantity.quantity_likes + 1;
-    } else {
-      validate.quantity_likes = validateQuantity.quantity_likes;
+      movie.quantity_likes = movie.quantity_likes + 1;
     }
 
     if (validate.dislike) {
       validate.like = false;
-      validate.quantity_dislikes = validateQuantity.quantity_dislikes + 1;
-    } else {
-      validate.quantity_dislikes = validateQuantity.quantity_dislikes;
+      movie.quantity_dislikes = movie.quantity_dislikes + 1;
     }
 
-    const patchMovie = await prisma.movies.updateMany({
+    const patchMovie = await prisma.movies.update({
       where: {
         guid: guid
       },
-      data: validate
+      data: movie
     })
 
     /**
@@ -79,6 +75,9 @@ class MovieService {
     const data = {
       user_guid: user_guid,
       movie_guid: guid,
+      like: validate.like,
+      dislike: validate.dislike,
+      favorite: validate.favorite
     }
 
     const arrayMovies = await prisma.userMovieLikes.findMany({
@@ -87,12 +86,12 @@ class MovieService {
       }
     })
 
-    const movie = arrayMovies.filter((u) => u.user_guid === user_guid)[0];
+    const userMovie = arrayMovies.filter((u) => u.user_guid === user_guid)[0];
 
-    if (movie) {
+    if (userMovie) {
       await prisma.userMovieLikes.update({
         where: {
-          guid: movie.guid,
+          guid: userMovie.guid,
         },
         data: data
       })

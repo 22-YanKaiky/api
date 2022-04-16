@@ -1,8 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const prisma = new PrismaClient();
-const likeSchema = require("../utils/schemas/videosLike");
-const schema = require("../utils/schemas/series.animes");
+const quantityLikeSchema = require("../utils/schemas/quantity.like.favorite.schema");
+const schema = require("../utils/schemas/series.animes.schema");
 
 class AnimeService {
   static createAnime = async (payload) => {
@@ -44,9 +44,9 @@ class AnimeService {
   };
 
   static patchAnime = async (guid, user_guid, payload) => {
-    const validate = likeSchema.validate(payload).value;
+    const validate = quantityLikeSchema.validate(payload).value;
 
-    const validateQuantity = await prisma.animes.findUnique({
+    const anime = await prisma.animes.findUnique({
       where: {
         guid: guid
       }
@@ -54,19 +54,15 @@ class AnimeService {
 
     if (validate.like) {
       validate.dislike = false;
-      validate.quantity_likes = validateQuantity.quantity_likes + 1;
-    } else {
-      validate.quantity_likes = validateQuantity.quantity_likes;
+      anime.quantity_likes = anime.quantity_likes + 1;
     }
 
     if (validate.dislike) {
       validate.like = false;
-      validate.quantity_dislikes = validateQuantity.quantity_dislikes + 1;
-    } else {
-      validate.quantity_dislikes = validateQuantity.quantity_dislikes;
+      anime.quantity_dislikes = anime.quantity_dislikes + 1;
     }
 
-    const patchAnime = await prisma.animes.updateMany({
+    const patchAnime = await prisma.animes.update({
       where: {
         guid: guid
       },
@@ -79,6 +75,9 @@ class AnimeService {
     const data = {
       user_guid: user_guid,
       anime_guid: guid,
+      like: validate.like,
+      dislike: validate.dislike,
+      favorite: validate.favorite
     }
 
     const arrayAnimes = await prisma.userAnimeLikes.findMany({
@@ -87,12 +86,12 @@ class AnimeService {
       }
     })
 
-    const anime = arrayAnimes.filter((u) => u.user_guid === user_guid)[0];
+    const userAnime = arrayAnimes.filter((u) => u.user_guid === user_guid)[0];
 
-    if (anime) {
+    if (userAnime) {
       await prisma.userAnimeLikes.update({
         where: {
-          guid: anime.guid,
+          guid: userAnime.guid,
         },
         data: data
       })
