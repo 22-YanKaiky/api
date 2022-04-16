@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const sortName = require('../utils/functions/sort.name');
 
 class FavoritesService {
   static getFavorites = async (user_guid) => {
@@ -49,7 +50,11 @@ class FavoritesService {
       type: 'serie'
     }))
 
-    return [...animesFavorite, ...moviesFavorite, ...seriesFavorite];
+    const favorites = [...animesFavorite, ...moviesFavorite, ...seriesFavorite];
+
+    sortName(favorites);
+
+    return favorites
   };
 
   static videoFavorites = async (findPrisma, array, type) => {

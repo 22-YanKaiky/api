@@ -1,3 +1,4 @@
+const sortName = require('../utils/functions/sort.name');
 const AnimeService = require('./anime.service');
 const MovieService = require('./movie.service');
 const SerieService = require('./serie.service');
@@ -28,6 +29,8 @@ class ComingSoonService {
     }))
 
     const comingSoons = [...animeData, ...movieData, ...serieData];
+
+    sortName(comingSoons);
 
     return comingSoons;
   };

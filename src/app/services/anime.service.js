@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
+const sortName = require("../utils/functions/sort.name");
 const prisma = new PrismaClient();
 const quantityLikeSchema = require("../utils/schemas/quantity.like.favorite.schema");
 const schema = require("../utils/schemas/series.animes.schema");
@@ -28,6 +29,8 @@ class AnimeService {
   static getAllAnimes = async () => {
     const animes = await prisma.animes.findMany();
 
+    sortName(animes);
+    
     return animes;
   };
 

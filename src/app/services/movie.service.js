@@ -3,6 +3,7 @@ const createError = require("http-errors");
 const prisma = new PrismaClient();
 const quantityLikeSchema = require('../utils/schemas/quantity.like.favorite.schema');
 const schema = require("../utils/schemas/movies.schema");
+const sortName = require("../utils/functions/sort.name");
 
 class MovieService {
   static createMovie = async (payload) => {
@@ -27,6 +28,8 @@ class MovieService {
 
   static getAllMovies = async () => {
     const movies = await prisma.movies.findMany();
+
+    sortName(movies);
 
     return movies;
   };

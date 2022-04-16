@@ -8,6 +8,7 @@ require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
 const MailService = require("./mail.service");
+const sortName = require("../utils/functions/sort.name");
 
 class UserService {
   static createUser = async (payload) => {
@@ -52,6 +53,8 @@ class UserService {
     const users = await prisma.users.findMany();
 
     for (const user of users) this.removePassword(user);
+
+    sortName(users);
 
     return users;
   };
