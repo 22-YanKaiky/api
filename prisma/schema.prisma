@@ -10,18 +10,19 @@ datasource db {
 enum Genre {
   male
   female
+  prefer_not_anwer
 }
 
 model Users {
-  guid         String   @id @unique() @default(uuid()) @db.Uuid
+  guid         String    @id @unique() @default(uuid()) @db.Uuid
   name         String
   last_name    String?
-  email        String   @unique
+  email        String    @unique
   phone        String?
-  birthday     DateTime @db.Date
-  password     String?  @db.Text
-  isAdmin      Boolean  @default(false)
-  genre        String?
+  birthday     DateTime  @db.Date
+  password     String?   @db.Text
+  isAdmin      Boolean   @default(false)
+  genre        Genre?
   image_url    String?
   country      String?
   zipcode      String?
@@ -30,13 +31,14 @@ model Users {
   city         String?
   neighborhood String?
   street       String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now()) @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  deletedAt    DateTime?
 
   UserMovieLikes UserMovieLikes[]
   UserSerieLikes UserSerieLikes[]
-  @@map("users")
   UserAnimeLikes UserAnimeLikes[]
+  @@map("users")
 }
 
 model Animes {
@@ -56,9 +58,10 @@ model Animes {
   trailer           String
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
+  deletedAt         DateTime?
 
-  @@map("animes")
   UserAnimeLikes UserAnimeLikes[]
+  @@map("animes")
 }
 
 model Movies {
@@ -78,6 +81,7 @@ model Movies {
   trailer           String
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
+  deletedAt         DateTime?
 
   UserMovieLikes UserMovieLikes[]
   @@map("movies")
@@ -100,6 +104,7 @@ model Series {
   trailer           String
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @default(now()) @updatedAt
+  deletedAt         DateTime?
 
   UserSerieLikes UserSerieLikes[]
   @@map("series")
