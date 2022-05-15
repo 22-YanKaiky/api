@@ -30,7 +30,7 @@ class AnimeService {
     const animes = await prisma.animes.findMany();
 
     sortName(animes);
-    
+
     return animes;
   };
 
@@ -107,7 +107,7 @@ class AnimeService {
     return patchAnime;
   }
 
-  static updateAnime = async (payload, guid) => {    
+  static updateAnime = async (payload, guid) => {
     let trailer;
 
     if (payload.trailer) {
@@ -121,9 +121,14 @@ class AnimeService {
 
     const anime = {
       ...payload,
+      quantity_likes: payload.quantity_likes && Number(payload.quantity_likes),
+      quantity_dislikes: payload.quantity_dislikes && Number(payload.quantity_dislikes),
+      seasons: payload.seasons && Number(payload.seasons),
+      episodes: payload.episodes && Number(payload.episodes),
+      year: payload.year && Number(payload.year),
       trailer: trailer,
     };
-    
+
     const updateAnime = await prisma.animes.update({
       where: {
         guid: guid,

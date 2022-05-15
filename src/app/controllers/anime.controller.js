@@ -91,8 +91,6 @@ class AnimeController {
         trailer: request.body.trailer,
       };
 
-      console.log(payload)
-
       const anime = await AnimeService.updateAnime(payload, guid);
 
       response.status(200).json(anime);

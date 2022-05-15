@@ -121,6 +121,9 @@ class MovieService {
 
     const movie = {
       ...payload,
+      quantity_likes: payload.quantity_likes && Number(payload.quantity_likes),
+      quantity_dislikes: payload.quantity_dislikes && Number(payload.quantity_dislikes),
+      year: payload.year && Number(payload.year),
       trailer: trailer,
     };
 

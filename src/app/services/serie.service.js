@@ -30,7 +30,7 @@ class SerieService {
     const series = await prisma.series.findMany();
 
     sortName(series);
-    
+
     return series;
   };
 
@@ -121,6 +121,11 @@ class SerieService {
 
     const serie = {
       ...payload,
+      quantity_likes: payload.quantity_likes && Number(payload.quantity_likes),
+      quantity_dislikes: payload.quantity_dislikes && Number(payload.quantity_dislikes),
+      seasons: payload.seasons && Number(payload.seasons),
+      episodes: payload.episodes && Number(payload.episodes),
+      year: payload.year && Number(payload.year),
       trailer: trailer,
     };
 
