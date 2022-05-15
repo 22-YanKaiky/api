@@ -74,17 +74,15 @@ class UserService {
   };
 
   static updateUser = async (payload, guid) => {
-    const validate = schema.validate(payload);
-
     let user;
 
-    if (validate.zipcode) {
+    if (payload.zipcode) {
       const zipcode = await axios.get(
-        `https://brasilapi.com.br/api/cep/v1/${validate.zipcode}`
+        `https://brasilapi.com.br/api/cep/v1/${payload.zipcode}`
       );
 
       user = {
-        ...validate,
+        ...payload,
         state: zipcode.data.state,
         city: zipcode.data.city,
         neighborhood: zipcode.data.neighborhood,
@@ -92,7 +90,7 @@ class UserService {
       };
     }
 
-    if (!validate.zipcode) user = validate;
+    if (!payload.zipcode) user = payload;
 
     const updateUser = await prisma.users.update({
       where: {

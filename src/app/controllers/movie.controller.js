@@ -16,7 +16,7 @@ class MovieController {
         year: request.body.year,
         direction: request.body.direction,
         synopsis: request.body.synopsis,
-        folder: request.body.folder,
+        folder: request.file.location,
         trailer: request.body.trailer,
       };
 
@@ -87,7 +87,7 @@ class MovieController {
         year: request.body.year,
         direction: request.body.direction,
         synopsis: request.body.synopsis,
-        folder: request.body.folder,
+        folder: request.file ? request.file.location : request.body.folder,
         trailer: request.body.trailer,
       };
 

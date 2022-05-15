@@ -108,12 +108,10 @@ class SerieService {
   }
 
   static updateSerie = async (payload, guid) => {
-    const validate = schema.validate(payload).value;
-
     let trailer;
 
-    if (validate.trailer) {
-      const split = validate.trailer.split("https://youtu.be/");
+    if (payload.trailer) {
+      const split = payload.trailer.split("https://youtu.be/");
 
       if (split[0])
         return createError.UnprocessableEntity("Invalid trailer link");
@@ -122,7 +120,7 @@ class SerieService {
     }
 
     const serie = {
-      ...validate,
+      ...payload,
       trailer: trailer,
     };
 

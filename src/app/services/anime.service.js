@@ -107,13 +107,11 @@ class AnimeService {
     return patchAnime;
   }
 
-  static updateAnime = async (payload, guid) => {
-    const validate = schema.validate(payload).value;
-
+  static updateAnime = async (payload, guid) => {    
     let trailer;
 
-    if (validate.trailer) {
-      const split = validate.trailer.split("https://youtu.be/");
+    if (payload.trailer) {
+      const split = payload.trailer.split("https://youtu.be/");
 
       if (split[0])
         return createError.UnprocessableEntity("Invalid trailer link");
@@ -122,10 +120,10 @@ class AnimeService {
     }
 
     const anime = {
-      ...validate,
+      ...payload,
       trailer: trailer,
     };
-
+    
     const updateAnime = await prisma.animes.update({
       where: {
         guid: guid,
