@@ -9,12 +9,6 @@ const region = process.env.AWS_BUCKET_REGION;
 const accessKey = process.env.AWS_ACCESS_KEY;
 const secreatAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
-AWS.config.update({
-  region: region,
-  aws_access_key_id: accessKey,
-  aws_secret_access_key: secreatAccessKey,
-});
-
 const s3 = new AWS.S3({
   region,
   accessKey,
