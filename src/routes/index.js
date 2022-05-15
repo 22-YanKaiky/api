@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
+const upload = require('../app/utils/s3/s3');
 
 const animes = require("./animes");
 const zipcode = require("./zipcode");
@@ -12,6 +13,14 @@ const favorites = require("./favorites");
 const comingSoon = require("./coming.soon");
 
 router.get("/", (_, response) => response.status(200).json({ message: `© ${new Date().getUTCFullYear()}, Cinemovie` }));
+
+router.use("/uploads", upload.single('file'), async (request, response) => {
+  const file = request.file;
+
+  response.send({
+    location: file.location
+  })
+});
 
 router.use("/auth", auth);
 router.use("/animes", animes);
