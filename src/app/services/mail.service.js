@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const SMTP_CONFIG = require("../../config/smtp");
+const WelcomeMail = require("../utils/mails/welcome.user");
 
 class MailService {
   static transporter() {
@@ -25,7 +26,7 @@ class MailService {
       to: email,
       subject: "Bem vindo Nemonauta",
       text: "Agora você tem acesso a filmes, séries e animes de forma gratuita",
-      html: `<div>Esta é sua senha: <strong>${password}</strong><br />É só acessar o link <a href="https://www.example.com">www.example.com</a> para editá-la<br /><div style={ display: 'flex', justify-content: 'center' }><img src="https://i.pinimg.com/originals/2f/88/a9/2f88a9427474343f7275e3b8f6fcc2e1.jpg" alt="Catálogo de videos, imagem fictícia"/><br/></div>Divirta-se!</div>`,
+      html: await WelcomeMail.welcome(email, password),
     };
 
     this.transporter().sendMail(mail);
