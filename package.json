@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "npx prisma migrate deploy && node app.js",
+    "start": "npx prisma migrate deploy && npx prisma db seed && node app.js",
     "migrate": "npx prisma migrate dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
