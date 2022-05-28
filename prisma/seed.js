@@ -1,9 +1,10 @@
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function seed() {
-  const passwordHash = bcrypt.hashSync('yankaikys', 8);
+  const passwordHash = bcrypt.hashSync(process.env.USER_PASSWORD_SEEDER_DB, 8);
 
   const user = {
     name: "Yan Kaiky",
