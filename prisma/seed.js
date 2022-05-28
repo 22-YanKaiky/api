@@ -15,7 +15,7 @@ async function seed() {
     birthday: "2002-12-22T00:00:00.884Z",
     isAdmin: true,
     genre: "male",
-    image_url: "https://cinemovie.s3.sa-east-1.amazonaws.com/66040049-c11b-4398-811f-4d0794fd958a-1653273257168-Yan+Kaiky+A.+Santos.jpg",
+    image_url: "https://cinemovie.s3.sa-east-1.amazonaws.com/Yan+Kaiky+A.+Santos.jpg",
     country: "Brazil",
     zipcode: "89069090",
     state: "SC",
