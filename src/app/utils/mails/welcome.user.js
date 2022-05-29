@@ -437,7 +437,7 @@ class WelcomeMail {
 			
 																					<td style="padding:0 5px 0 5px;">
 																						<!-- GitHub -->
-																						<a href="https://github.com/22-YanKaiky" target="_blank">
+																						<a href="https://github.com/YanKaiky" target="_blank">
 																							<img src="https://cinemovie.s3.sa-east-1.amazonaws.com/cinemovie/icon-github.png" alt="GitHub" width="20px">
 																						</a>
 																					</td>
