@@ -9,8 +9,6 @@ class MovieController {
         link: request.body.link,
         comming_soon: request.body.comming_soon,
         date: request.body.date,
-        quantity_likes: request.body.quantity_likes,
-        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         time: request.body.time,
         year: request.body.year,
@@ -50,25 +48,6 @@ class MovieController {
     }
   };
 
-  static patchMovie = async (request, response, message) => {
-    try {
-      const guid = request.params.guid;
-      const user_guid = request.params.user_guid;
-
-      const payload = {
-        like: request.body.like,
-        dislike: request.body.dislike,
-        favorite: request.body.favorite,
-      };
-
-      const movie = await MovieService.patchMovie(guid, user_guid, payload);
-
-      response.status(200).json(movie);
-    } catch (error) {
-      message(createError(error.statusCode, error.message));
-    }
-  };
-
   static updateMovie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
@@ -78,10 +57,6 @@ class MovieController {
         link: request.body.link,
         comming_soon: request.body.comming_soon,
         date: request.body.date,
-        like: request.body.like,
-        dislike: request.body.dislike,
-        quantity_likes: request.body.quantity_likes,
-        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         time: request.body.time,
         year: request.body.year,

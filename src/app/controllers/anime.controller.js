@@ -9,8 +9,6 @@ class AnimeController {
         link: request.body.link,
         comming_soon: request.body.comming_soon,
         date: request.body.date,
-        quantity_likes: request.body.quantity_likes,
-        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,
@@ -50,25 +48,6 @@ class AnimeController {
     }
   };
 
-  static patchAnime = async (request, response, message) => {
-    try {
-      const guid = request.params.guid;
-      const user_guid = request.params.user_guid;
-
-      const payload = {
-        like: request.body.like,
-        dislike: request.body.dislike,
-        favorite: request.body.favorite,
-      };
-
-      const anime = await AnimeService.patchAnime(guid, user_guid, payload);
-
-      response.status(200).json(anime);
-    } catch (error) {
-      message(createError(error.statusCode, error.message));
-    }
-  };
-
   static updateAnime = async (request, response, message) => {
     try {
       const guid = request.params.guid;
@@ -80,8 +59,6 @@ class AnimeController {
         date: request.body.date,
         like: request.body.like,
         dislike: request.body.dislike,
-        quantity_likes: request.body.quantity_likes,
-        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,

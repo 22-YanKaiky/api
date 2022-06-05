@@ -1,27 +1,17 @@
 const { PrismaClient } = require("@prisma/client");
 const createError = require("http-errors");
 const sortName = require("../utils/functions/sort.name");
+const trailer = require("../utils/functions/trailer");
 const prisma = new PrismaClient();
-const quantityLikeSchema = require("../utils/schemas/quantity.like.favorite.schema");
 const schema = require("../utils/schemas/series.animes.schema");
 
 class AnimeService {
   static createAnime = async (payload) => {
+    payload.trailer = trailer.split(payload.trailer);
+
     const validate = schema.validate(payload).value;
 
-    const split = validate.trailer.split("https://youtu.be/");
-
-    if (split[0])
-      return createError.UnprocessableEntity("Invalid trailer link");
-
-    const trailer = `https://www.youtube.com/embed/${split[1]}`;
-
-    const validateAnime = {
-      ...validate,
-      trailer: trailer,
-    };
-
-    const anime = await prisma.animes.create({ data: validateAnime });
+    const anime = await prisma.animes.create({ data: validate });
 
     return anime;
   };
@@ -41,105 +31,43 @@ class AnimeService {
       },
     });
 
-    if (!anime) return createError.NotFound("Anime not found");
+    if (!anime) throw createError.NotFound("Anime not found");
 
     return anime;
   };
 
-  static patchAnime = async (guid, user_guid, payload) => {
-    const validate = quantityLikeSchema.validate(payload).value;
-
+  static updateAnime = async (payload, guid) => {
     const anime = await prisma.animes.findUnique({
       where: {
-        guid: guid
-      }
+        guid: guid,
+      },
     });
 
-    if (validate.like) {
-      validate.dislike = false;
-      anime.quantity_likes = anime.quantity_likes + 1;
-    }
+    if (!anime) throw createError.NotFound("Anime not found");
 
-    if (validate.dislike) {
-      validate.like = false;
-      anime.quantity_dislikes = anime.quantity_dislikes + 1;
-    }
+    if (payload.trailer) payload.trailer = trailer.split(payload.trailer);
 
-    const patchAnime = await prisma.animes.update({
-      where: {
-        guid: guid
-      },
-      data: anime
-    })
-
-    /**
-     * Tabela de user_anime_likes
-     */
-    const data = {
-      user_guid: user_guid,
-      anime_guid: guid,
-      like: validate.like,
-      dislike: validate.dislike,
-      favorite: validate.favorite
-    }
-
-    const arrayAnimes = await prisma.userAnimeLikes.findMany({
-      where: {
-        anime_guid: guid,
-      }
-    })
-
-    const userAnime = arrayAnimes.filter((u) => u.user_guid === user_guid)[0];
-
-    if (userAnime) {
-      await prisma.userAnimeLikes.update({
-        where: {
-          guid: userAnime.guid,
-        },
-        data: data
-      })
-    } else {
-      await prisma.userAnimeLikes.create({
-        data: data
-      })
-    }
-
-    return patchAnime;
-  }
-
-  static updateAnime = async (payload, guid) => {
-    let trailer;
-
-    if (payload.trailer) {
-      const split = payload.trailer.split("https://youtu.be/");
-
-      if (split[0])
-        return createError.UnprocessableEntity("Invalid trailer link");
-
-      trailer = `https://www.youtube.com/embed/${split[1]}`;
-    }
-
-    const anime = {
-      ...payload,
-      quantity_likes: payload.quantity_likes && Number(payload.quantity_likes),
-      quantity_dislikes: payload.quantity_dislikes && Number(payload.quantity_dislikes),
-      seasons: payload.seasons && Number(payload.seasons),
-      episodes: payload.episodes && Number(payload.episodes),
-      year: payload.year && Number(payload.year),
-      trailer: trailer,
-    };
+    const validate = schema.validate(payload).value;
 
     const updateAnime = await prisma.animes.update({
       where: {
         guid: guid,
       },
-      data: anime,
+      data: validate,
     });
 
     return updateAnime;
   };
 
   static deleteAnime = async (guid) => {
+    const anime = await prisma.animes.findUnique({
+      where: {
+        guid: guid,
+      },
+    });
+
+    if (!anime) throw createError.NotFound("Anime not found");
+
     await prisma.animes.delete({
       where: {
         guid: guid,

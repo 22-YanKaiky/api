@@ -11,8 +11,6 @@ router.get("/", auth, AnimeController.getAllAnimes);
 
 router.get("/:guid", auth, AnimeController.getAnimeByGuid);
 
-router.patch("/:guid/:user_guid", auth, AnimeController.patchAnime);
-
 router.put("/:guid", auth, upload.single('folder'), AnimeController.updateAnime);
 
 router.delete("/:guid", auth, AnimeController.deleteAnime);

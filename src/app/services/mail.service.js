@@ -50,6 +50,11 @@ class MailService {
     this.transporter().sendMail(mail);
   }
 
+  /**
+   * Sistema de disparos de email com horário fixo
+   * Buscar todos os criados no dia para enviar
+   */ 
+
   static comingSoon(email) {
     const mail = {
       from: '"Cinemovie" <yankaiky@outlook.com>',

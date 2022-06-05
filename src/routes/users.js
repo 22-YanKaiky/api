@@ -11,6 +11,8 @@ router.post("/", upload.single('image_url'), UserController.createUser);
 
 router.get("/:guid", auth, UserController.getUserByGuid);
 
+router.get("/:guid/favorites", auth, UserController.getUserFavorites);
+
 router.put("/:guid", auth, upload.single('image_url'), UserController.updateUser);
 
 router.delete("/:guid", auth, UserController.deleteUser);

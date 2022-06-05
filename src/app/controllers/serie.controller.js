@@ -9,8 +9,6 @@ class SerieController {
         link: request.body.link,
         comming_soon: request.body.comming_soon,
         date: request.body.date,
-        quantity_likes: request.body.quantity_likes,
-        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,
@@ -50,25 +48,6 @@ class SerieController {
     }
   };
 
-  static patchSerie = async (request, response, message) => {
-    try {
-      const guid = request.params.guid;
-      const user_guid = request.params.user_guid;
-
-      const payload = {
-        like: request.body.like,
-        dislike: request.body.dislike,
-        favorite: request.body.favorite,
-      };
-
-      const serie = await SerieService.patchSerie(guid, user_guid, payload);
-
-      response.status(200).json(serie);
-    } catch (error) {
-      message(createError(error.statusCode, error.message));
-    }
-  };
-
   static updateSerie = async (request, response, message) => {
     try {
       const guid = request.params.guid;
@@ -78,10 +57,6 @@ class SerieController {
         link: request.body.link,
         comming_soon: request.body.comming_soon,
         date: request.body.date,
-        like: request.body.like,
-        dislike: request.body.dislike,
-        quantity_likes: request.body.quantity_likes,
-        quantity_dislikes: request.body.quantity_dislikes,
         genre: request.body.genre,
         seasons: request.body.seasons,
         episodes: request.body.episodes,

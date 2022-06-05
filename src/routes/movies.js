@@ -11,8 +11,6 @@ router.get("/", auth, MovieController.getAllMovies);
 
 router.get("/:guid", auth, MovieController.getMovieByGuid);
 
-router.patch("/:guid/:user_guid", auth, MovieController.patchMovie);
-
 router.put("/:guid", auth, upload.single('folder'), MovieController.updateMovie);
 
 router.delete("/:guid", auth, MovieController.deleteMovie);

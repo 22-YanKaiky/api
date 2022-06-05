@@ -8,15 +8,9 @@ class UserController {
         name: request.body.name,
         last_name: request.body.last_name,
         email: request.body.email,
-        phone: request.body.phone,
-        birthday: request.body.birthday,
         password: request.body.password,
-        isAdmin: request.body.isAdmin,
-        genre: request.body.genre,
-        image_url: request.file.location,
-        country: request.body.country,
-        zipcode: request.body.zipcode,
-        house_number: request.body.house_number,
+        admin: request.body.admin,
+        image_url: request.body.image_url ? request?.file.location : null,
       };
 
       const user = await UserService.createUser(payload);
@@ -49,6 +43,18 @@ class UserController {
     }
   };
 
+  static getUserFavorites = async (request, response, message) => {
+    try {
+      const guid = request.params.guid
+
+      const favorites = await UserService.getUserFavorites(guid);
+
+      response.status(200).json(favorites);
+    } catch (error) {
+      message(createError(error.statusCode, error.message));
+    }
+  };
+
   static updateUser = async (request, response, message) => {
     try {
       const guid = request.params.guid;
@@ -57,15 +63,9 @@ class UserController {
         name: request.body.name,
         last_name: request.body.last_name,
         email: request.body.email,
-        phone: request.body.phone,
-        birthday: request.body.birthday,
         password: request.body.password,
         isAdmin: request.body.isAdmin,
-        genre: request.body.genre,
-        image_url: request.file ? request.file.location : request.body.image_url,
-        country: request.body.country,
-        zipcode: request.body.zipcode,
-        house_number: request.body.house_number,
+        image_url: request.body.image_url ? request?.file.location : null,
       };
 
       const user = await UserService.updateUser(payload, guid);
