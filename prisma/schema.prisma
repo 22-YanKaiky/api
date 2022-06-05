@@ -23,6 +23,9 @@ model Users {
   UserMovieFavorites UserMovieFavorites[]
   UserSerieFavorites UserSerieFavorites[]
 
+  UserAnimeLikes UserAnimeLikes[]
+  UserMovieLikes UserMovieLikes[]
+  UserSerieLikes UserSerieLikes[]
   @@map("users")
 }
 
@@ -44,6 +47,7 @@ model Animes {
   deletedAt    DateTime?
 
   UserAnimeFavorites UserAnimeFavorites[]
+  UserAnimeLikes     UserAnimeLikes[]
   @@map("animes")
 }
 
@@ -65,6 +69,7 @@ model Movies {
   deletedAt    DateTime?
 
   UserMovieFavorites UserMovieFavorites[]
+  UserMovieLikes     UserMovieLikes[]
   @@map("movies")
 }
 
@@ -86,15 +91,16 @@ model Series {
   deletedAt    DateTime?
 
   UserSerieFavorites UserSerieFavorites[]
+  UserSerieLikes     UserSerieLikes[]
   @@map("series")
 }
 
 model UserAnimeFavorites {
   guid       String    @id @unique() @default(uuid()) @db.Uuid
-  user_guid  String
+  user_guid  String    @db.Uuid
   user       Users     @relation(fields: [user_guid], references: [guid])
-  anime_guid String
-  anime      Animes    @relation(fields: [anime_guid], references: [guid])
+  anime_guid String    @db.Uuid
+  animes     Animes    @relation(fields: [anime_guid], references: [guid])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @default(now()) @updatedAt
   deletedAt  DateTime?
@@ -104,10 +110,10 @@ model UserAnimeFavorites {
 
 model UserMovieFavorites {
   guid       String    @id @unique() @default(uuid()) @db.Uuid
-  user_guid  String
+  user_guid  String    @db.Uuid
   user       Users     @relation(fields: [user_guid], references: [guid])
-  movie_guid String
-  movie      Movies    @relation(fields: [movie_guid], references: [guid])
+  movie_guid String    @db.Uuid
+  movies     Movies    @relation(fields: [movie_guid], references: [guid])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @default(now()) @updatedAt
   deletedAt  DateTime?
@@ -117,13 +123,55 @@ model UserMovieFavorites {
 
 model UserSerieFavorites {
   guid       String    @id @unique() @default(uuid()) @db.Uuid
-  user_guid  String
+  user_guid  String    @db.Uuid
   user       Users     @relation(fields: [user_guid], references: [guid])
-  serie_guid String
-  serie      Series    @relation(fields: [serie_guid], references: [guid])
+  serie_guid String    @db.Uuid
+  series     Series    @relation(fields: [serie_guid], references: [guid])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @default(now()) @updatedAt
   deletedAt  DateTime?
 
   @@map("user_serie_favorites")
+}
+
+model UserAnimeLikes {
+  guid       String    @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String    @db.Uuid
+  user       Users     @relation(fields: [user_guid], references: [guid])
+  anime_guid String    @db.Uuid
+  animes     Animes    @relation(fields: [anime_guid], references: [guid])
+  value      Boolean?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deletedAt  DateTime?
+
+  @@map("user_anime_likes")
+}
+
+model UserMovieLikes {
+  guid       String    @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String    @db.Uuid
+  user       Users     @relation(fields: [user_guid], references: [guid])
+  movie_guid String    @db.Uuid
+  movies     Movies    @relation(fields: [movie_guid], references: [guid])
+  value      Boolean?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deletedAt  DateTime?
+
+  @@map("user_movie_likes")
+}
+
+model UserSerieLikes {
+  guid       String    @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String    @db.Uuid
+  user       Users     @relation(fields: [user_guid], references: [guid])
+  serie_guid String    @db.Uuid
+  series     Series    @relation(fields: [serie_guid], references: [guid])
+  value      Boolean?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deletedAt  DateTime?
+
+  @@map("user_serie_likes")
 }
