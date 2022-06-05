@@ -19,6 +19,10 @@ model Users {
   updatedAt DateTime  @default(now()) @updatedAt
   deletedAt DateTime?
 
+  UserAnimeFavorites UserAnimeFavorites[]
+  UserMovieFavorites UserMovieFavorites[]
+  UserSerieFavorites UserSerieFavorites[]
+
   @@map("users")
 }
 
@@ -39,6 +43,7 @@ model Animes {
   updatedAt    DateTime  @default(now()) @updatedAt
   deletedAt    DateTime?
 
+  UserAnimeFavorites UserAnimeFavorites[]
   @@map("animes")
 }
 
@@ -59,6 +64,7 @@ model Movies {
   updatedAt    DateTime  @default(now()) @updatedAt
   deletedAt    DateTime?
 
+  UserMovieFavorites UserMovieFavorites[]
   @@map("movies")
 }
 
@@ -79,5 +85,45 @@ model Series {
   updatedAt    DateTime  @default(now()) @updatedAt
   deletedAt    DateTime?
 
+  UserSerieFavorites UserSerieFavorites[]
   @@map("series")
+}
+
+model UserAnimeFavorites {
+  guid       String    @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String
+  user       Users     @relation(fields: [user_guid], references: [guid])
+  anime_guid String
+  anime      Animes    @relation(fields: [anime_guid], references: [guid])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deletedAt  DateTime?
+
+  @@map("user_anime_favorites")
+}
+
+model UserMovieFavorites {
+  guid       String    @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String
+  user       Users     @relation(fields: [user_guid], references: [guid])
+  movie_guid String
+  movie      Movies    @relation(fields: [movie_guid], references: [guid])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deletedAt  DateTime?
+
+  @@map("user_movie_favorites")
+}
+
+model UserSerieFavorites {
+  guid       String    @id @unique() @default(uuid()) @db.Uuid
+  user_guid  String
+  user       Users     @relation(fields: [user_guid], references: [guid])
+  serie_guid String
+  serie      Series    @relation(fields: [serie_guid], references: [guid])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  deletedAt  DateTime?
+
+  @@map("user_serie_favorites")
 }
