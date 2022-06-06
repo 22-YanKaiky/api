@@ -31,7 +31,7 @@ class SerieService {
       },
     });
 
-    if (!serie) throw createError.NotFound("Serie not found");
+    if (!serie) throw createError.NotFound("SERIE_NOT_FOUND");
 
     return serie;
   };
@@ -43,7 +43,7 @@ class SerieService {
       },
     });
 
-    if (!serie) throw createError.NotFound("Serie not found");
+    if (!serie) throw createError.NotFound("SERIE_NOT_FOUND");
 
     if (payload.trailer) payload.trailer = trailer.split(payload.trailer);
 
@@ -66,7 +66,7 @@ class SerieService {
       },
     });
 
-    if (!serie) throw createError.NotFound("Serie not found");
+    if (!serie) throw createError.NotFound("SERIE_NOT_FOUND");
     
     await prisma.series.delete({
       where: {

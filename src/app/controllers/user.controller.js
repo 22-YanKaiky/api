@@ -31,6 +31,20 @@ class UserController {
     }
   };
 
+  static createUserFavorite = async (request, response, message) => {
+    try {
+      const guid = request.params.guid;
+      const favorite_guid = request.body.favorite_guid;
+      const type = request.body.type;
+
+      const favorite = await UserService.createUserFavorite(guid, favorite_guid, type);
+
+      response.status(200).json(favorite);
+    } catch (error) {
+      message(createError(error.statusCode, error.message));
+    }
+  }
+
   static getUserByGuid = async (request, response, message) => {
     try {
       const guid = request.params.guid;

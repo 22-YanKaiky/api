@@ -18,7 +18,7 @@ router.use("/movies", movies);
 router.use("/series", series);
 router.use("/users", users);
 
-router.use(async (_, __, message) => message(createError.NotFound("Route not Found")));
+router.use(async (_, __, message) => message(createError.NotFound("ROUTE_NOT_FOUND")));
 
 router.use((error, _, response, __) => response.status(error.status || 500).json({ message: error.message }));
 

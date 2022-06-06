@@ -9,6 +9,8 @@ router.get("/", auth, UserController.getAllUsers);
 
 router.post("/", upload.single('image_url'), UserController.createUser);
 
+router.post("/:guid/favorites/:favorite_guid", UserController.createUserFavorite);
+
 router.get("/:guid", auth, UserController.getUserByGuid);
 
 router.get("/:guid/favorites", auth, UserController.getUserFavorites);

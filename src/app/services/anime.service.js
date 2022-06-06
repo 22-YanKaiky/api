@@ -31,7 +31,7 @@ class AnimeService {
       },
     });
 
-    if (!anime) throw createError.NotFound("Anime not found");
+    if (!anime) throw createError.NotFound("ANIME_NOT_FOUND");
 
     return anime;
   };
@@ -43,7 +43,7 @@ class AnimeService {
       },
     });
 
-    if (!anime) throw createError.NotFound("Anime not found");
+    if (!anime) throw createError.NotFound("ANIME_NOT_FOUND");
 
     if (payload.trailer) payload.trailer = trailer.split(payload.trailer);
 
@@ -66,7 +66,7 @@ class AnimeService {
       },
     });
 
-    if (!anime) throw createError.NotFound("Anime not found");
+    if (!anime) throw createError.NotFound("ANIME_NOT_FOUND");
 
     await prisma.animes.delete({
       where: {

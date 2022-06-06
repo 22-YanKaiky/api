@@ -31,7 +31,7 @@ class MovieService {
       },
     });
 
-    if (!movie) throw createError.NotFound("Movie not found");
+    if (!movie) throw createError.NotFound("MOVIE_NOT_FOUND");
 
     return movie;
   };
@@ -43,7 +43,7 @@ class MovieService {
       },
     });
 
-    if (!movie) throw createError.NotFound("Movie not found");
+    if (!movie) throw createError.NotFound("MOVIE_NOT_FOUND");
 
     if (payload.trailer) payload.trailer = trailer.split(payload.trailer);
 
@@ -66,7 +66,7 @@ class MovieService {
       },
     });
 
-    if (!movie) throw createError.NotFound("Movie not found");
+    if (!movie) throw createError.NotFound("MOVIE_NOT_FOUND");
 
     await prisma.movies.delete({
       where: {
